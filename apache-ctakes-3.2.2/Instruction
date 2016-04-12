@@ -1,0 +1,8 @@
+-To preprocess training data using ctakes
+run bin/runctakesCPE_train.sh
+move the file to output/train
+
+-To preprocess test data using ctakes
+run bin/runctakesCPE_test.sh
+move the file to output/test
+
