@@ -8,9 +8,14 @@ from loadTuples import load
 
 #print nltk.corpus.conll2002.fileids()
 
-train_sents = load("train")
-#print train_sents
-#print "sent =" +str(len(train_sents))
+train_sents = load('train_tuples.pkl')
+test_sents = load('test_tuples.pkl')
+
+
+
+
+
+
 def word2features(sent, i):
     word = sent[i][0]
     postag = sent[i][1]
@@ -110,19 +115,19 @@ def sent2features(sent):
 
 def sent2labels(sent):
 	#print sent
-	#return [label for token, postag, norm, cui, tui, label, start, end, filename in sent]
-	return [label for token, postag, norm, cui, tui, label, start, end in sent]
+	return [label for token, postag, norm, cui, tui, label in sent]
 
 def sent2tokens(sent):
-    #return [token for token, postag, norm, cui, tui, label, start, end, filename in sent]    
-    return [token for token, postag, norm, cui, tui, label, start, end in sent]    
+    return [token for token, postag, norm, cui, tui, label in sent]    
 
 #print sent2features(train_sents[0])[0]    
 
 print "Doing for train"
 X_train = [sent2features(s) for s in train_sents]
 y_train = [sent2labels(s) for s in train_sents]
-
+print "Doing for test"
+X_test = [sent2features(s) for s in test_sents]
+y_test = [sent2labels(s) for s in test_sents]
 
 
 trainer = pycrfsuite.Trainer(verbose=False)
@@ -133,7 +138,7 @@ for xseq, yseq in zip(X_train, y_train):
 trainer.set_params({
     'c1': 1.0,   # coefficient for L1 penalty
     'c2': 1e-3,  # coefficient for L2 penalty
-    'max_iterations': 75,  # stop earlier
+    'max_iterations': 50,  # stop earlier
 
     # include transitions that are possible, but not observed
     'feature.possible_transitions': True
@@ -142,3 +147,17 @@ trainer.set_params({
 print trainer.params()
 trainer.train('tempeval2016-event.crfsuite')
 
+
+tagger = pycrfsuite.Tagger()
+tagger.open('tempeval2016-event.crfsuite')
+
+example_sent = test_sents[4]
+print(' '.join(sent2tokens(example_sent)))
+
+#print("Predicted:", ' '.join(tagger.tag(sent2features(example_sent))))
+#print("Correct:  ", ' '.join(sent2labels(example_sent)))
+predicted = tagger.tag(sent2features(example_sent))
+correct = sent2labels(example_sent)
+print "\tToken\t\tPredicted\t\tCorrect"
+for i in range(0,len(predicted)):
+	print "\t"+example_sent[i][0]+"\t\t" + predicted[i]+ "\t\t" + correct[i]

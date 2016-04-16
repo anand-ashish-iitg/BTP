@@ -7,7 +7,7 @@ import pycrfsuite
 from loadTuples import load
 from evalt import *
 import pickle
-from evalt3 import *
+from evalt import *
 
 #print nltk.corpus.conll2002.fileids()
 
@@ -107,17 +107,19 @@ def word2features(sent, i):
     return features
 
 
+
 def sent2features(sent):
     return [word2features(sent, i) for i in range(len(sent))]
 
 def sent2labels(sent):
 	#print sent
+	#return [label for token, postag, norm, cui, tui, label, start, end, filename in sent]
 	return [label for token, postag, norm, cui, tui, label, start, end in sent]
-	#return [label for token, postag, norm, cui, tui, label in sent]
 
 def sent2tokens(sent):
+    #return [token for token, postag, norm, cui, tui, label, start, end, filename in sent]    
     return [token for token, postag, norm, cui, tui, label, start, end in sent]    
-    #return [token for token, postag, norm, cui, tui, label in sent]    
+
 
 #print sent2features(train_sents[0])[0]    
 
@@ -146,7 +148,7 @@ f=open("CorrectTags.pkl", 'wb')
 pickle.dump(correct, f)
 f.close()
 
-evaluate3(correct,predicted)
+evaluate(correct,predicted)
 # example_sent = test_sents[4]
 # print(' '.join(sent2tokens(example_sent)))
 

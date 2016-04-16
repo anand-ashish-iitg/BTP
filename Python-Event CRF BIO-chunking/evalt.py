@@ -4,7 +4,7 @@ from nltk.compat import python_2_unicode_compatible
 import numpy
 from collections import defaultdict
 import sys
-
+from sklearn.metrics import precision_score, recall_score, confusion_matrix, classification_report, accuracy_score, f1_score
 class ConfusionMatrix(object):
 
     def __init__(self, reference, test, sort_by_count=False):
@@ -75,6 +75,7 @@ class ConfusionMatrix(object):
         self.getPREmacro()
         self.getRECmacro()
         self.getF1macro()
+        self.accuracy_score = accuracy_score(reference, test) 
 
     def printConf(self):
         print(self.pretty_format())
@@ -244,7 +245,8 @@ class ConfusionMatrix(object):
 
     #prints the performace measures
     def printResults(self):
-
+        print("Accuracy of the classfier :" + str(self.accuracy_score ))
+        print('\n\n')
         print("Precision Recall and F1 measure for respective tags are as follows:")
         for tag in self._values:
             print("\nFor tag = '" + str(tag) +"':")

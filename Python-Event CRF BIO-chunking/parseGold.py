@@ -26,3 +26,5 @@ def getSpans(filename):
    except:
       print "Error parsing file : " +  filename
       raise
+
+print getSpans("/home/subh/Desktop/BTP/Python/gold_annotated/train/ID001_clinic_001/ID001_clinic_001.Temporal-Relation.gold.completed.xml")

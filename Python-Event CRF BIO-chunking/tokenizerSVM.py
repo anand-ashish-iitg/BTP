@@ -2,7 +2,7 @@ import nltk
 import os.path
 import os  
 from nltk import sent_tokenize, word_tokenize
-from parseGold import getSpans
+from parseGoldSVM import getSpans
 import pickle
 #process annotatation given to have the labels for words based on the span
 
@@ -89,15 +89,29 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                             word_len = _len(word)
                             running_offset = word_offset + word_len
                             label = "O"
+                            Type = "N/A"
+                            Degree = "N/A"
+                            Polarity = "POS"
+                            Modality = "ACTUAL"
+                            Aspect = "N/A"
                             for cord in spans:
                                 #print cord[0],cord[1]                                    
                                 if(word_offset==cord[0]):
                                     #print "B-EVENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
                                     label = "B-EVENT"
+                                    Type =  cord[2]
+                                    Degree = cord[3]
+                                    Polarity = cord[4]
+                                    Modality = cord[5]
+                                    Aspect = cord[6]
                                     break
                                 elif(word_offset>cord[0] and (running_offset)<=cord[1]):
                                     #print " I-EVENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
-                                    label = "I-EVENT"
+                                    Type =  cord[2]
+                                    Degree = cord[3]
+                                    Polarity = cord[4]
+                                    Modality = cord[5]
+                                    Aspect = cord[6]
                                     break                
                         except ValueError:
                             label = "O"
@@ -116,10 +130,10 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                             tui = tuiDict[word]
 
                         #print word,label
-                        offsets.append((word, pos[1], norm, cui, tui, label, word_offset, running_offset-1, fileName))
+                        offsets.append((word, pos[1], norm, cui, tui, label, word_offset, running_offset-1, fileName, Type, Degree, Polarity, Modality, Aspect))
                         #print text[word_offset:running_offset] + " " + word
                     textOffsets.append(offsets)
-                f=open("dumpPickles/" + trainOrTest + "/" + fileName + "-" + pickleFile, 'wb')
+                f=open("SVMdumpPickles/" + trainOrTest + "/" + fileName + "-" + pickleFile, 'wb')
                 pickle.dump(textOffsets, f)
                 f.close()
                 #return textOffsets
