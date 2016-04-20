@@ -16,6 +16,7 @@ train_sents = load3("train")
 #print "sent =" +str(len(train_sents))
 SWN = sentlex.SWN3Lexicon()
 
+
 def word2features(sent, i):
 	word = sent[i][0]
 	postag = sent[i][1]
@@ -33,6 +34,7 @@ def word2features(sent, i):
 	Event = sent[i][5]
 	if(neg>pos):
 		Pol=False
+	tense = 
 	features = {
 		'word=' :  word,
 		'word[-3:]' : word[-3:],

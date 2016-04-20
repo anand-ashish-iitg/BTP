@@ -284,8 +284,6 @@ def sent2tokens(sent):
 
 
 print "Doing for test"
-X_test = [sent2features(s) for s in test_sents]
-y_test = [sent2labels(s) for s in test_sents]
 
 predicted = []
 correct = []
@@ -335,11 +333,43 @@ def eventEvaluate(cor,pred):
 	for p in pred:
 		ind += 1
 		if(pred[ind]!="O"):
-			sys += 1
-			if(cor[ind]==pred[ind]):
-				sysandgrnd += 1
+			# for the Inside event tag check whether the begin tag was correctly identiied or not
+			if(pred[ind]=="I-EVENT"):
+				prev = ind -1
+				while(prev>0 and pred[prev]=="I-EVENT"):
+					prev -= 1
+				if(prev>=0 and pred[prev]=="B-EVENT"):
+					sys += 1
+					if(cor[ind]==pred[ind]):
+						sysandgrnd += 1
+			else:
+				sys += 1
+				if(cor[ind]==pred[ind]):
+					sysandgrnd += 1
 		if(cor[ind]!="O"):
 			grnd += 1
+
+# def eventEvaluate(cor,pred):
+# 	ind = -1
+# 	sysandgrnd = 0
+# 	sys = 0
+# 	grnd = 0
+# 	for p in pred:
+# 		ind += 1
+# 		if(pred[ind]!="O"):
+# 			sys += 1
+# 			if(cor[ind]==pred[ind]):
+# 				sysandgrnd += 1
+# 		if(cor[ind]!="O"):
+# 			grnd += 1
+
+# 	prec = sysandgrnd/float(sys)
+# 	rec = sysandgrnd/float(grnd)
+# 	fmes = 2 * prec * rec /(prec + rec)
+# 	print "Performance Measures:"
+# 	print "Precision  = " +  str(prec)
+# 	print "Recall  = " +  str(rec)
+# 	print "Fmeasure  = " +  str(fmes)			
 
 	prec = sysandgrnd/float(sys)
 	rec = sysandgrnd/float(grnd)
