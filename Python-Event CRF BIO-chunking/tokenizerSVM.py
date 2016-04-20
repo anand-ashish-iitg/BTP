@@ -107,6 +107,7 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                                     break
                                 elif(word_offset>cord[0] and (running_offset)<=cord[1]):
                                     #print " I-EVENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
+                                    label = "I-EVENT"
                                     Type =  cord[2]
                                     Degree = cord[3]
                                     Polarity = cord[4]

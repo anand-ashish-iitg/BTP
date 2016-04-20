@@ -173,6 +173,129 @@ def word2features(sent, i):
 		})
 	else:
 		features.update({'EOS2':True})
+	# 3rd token before after
+
+	if i > 2:
+		word2 = sent[i-3][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = sent[i-3][5]
+		postag2 = sent[i-3][1]
+		norm2 = sent[i-3][2]
+		cui2 = sent[i-3][3]
+		tui2 = sent[i-3][4]
+		features.update({
+			'-3:word': word1,
+			'-3:word.isupper': word2.isupper(),
+			'-3:postag': postag2,
+			'-3:norm': norm2,
+			'-3:cui': cui2,
+			'-3:tui': tui2,
+			'-3:Pol':	Pol2,	
+			'-3:Event': Event2,
+		})
+	else:
+		features.update({'BOS3':True})
+
+	if i < len(sent)-3:
+		word2 = sent[i+3][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = sent[i+3][5]
+		postag2 = sent[i+3][1]
+		norm2 = sent[i+3][2]
+		cui2 = sent[i+3][3]
+		tui2 = sent[i+3][4]
+		features.update({
+			'+3:word': word2,
+			'+3:word.isupper': word2.isupper(),
+			'+3:postag': postag2,
+			'+3:norm': norm2,
+			'+3:cui': cui2,
+			'+3:tui': tui2,
+			'+3:Pol':	Pol2,	
+			'+3:Event': Event2,
+		})
+	else:
+		features.update({'EOS3':True})
+
+		# 4th token before after
+
+	if i > 3:
+		word2 = sent[i-4][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = sent[i-4][5]
+		postag2 = sent[i-4][1]
+		norm2 = sent[i-4][2]
+		cui2 = sent[i-4][3]
+		tui2 = sent[i-4][4]
+		features.update({
+			'-4:word': word1,
+			'-4:word.isupper': word2.isupper(),
+			'-4:postag': postag2,
+			'-4:norm': norm2,
+			'-4:cui': cui2,
+			'-4:tui': tui2,
+			'-4:Pol':	Pol2,	
+			'-4:Event': Event2,
+		})
+	else:
+		features.update({'BOS4':True})
+
+	if i < len(sent)-4:
+		word2 = sent[i+4][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = sent[i+4][5]
+		postag2 = sent[i+4][1]
+		norm2 = sent[i+4][2]
+		cui2 = sent[i+4][3]
+		tui2 = sent[i+4][4]
+		features.update({
+			'+4:word': word2,
+			'+4:word.isupper': word2.isupper(),
+			'+4:postag': postag2,
+			'+4:norm': norm2,
+			'+4:cui': cui2,
+			'+4:tui': tui2,
+			'+4:Pol':	Pol2,	
+			'+4:Event': Event2,
+		})
+	else:
+		features.update({'EOS4':True})
 
 	'''print "word : "  
 	print  sent[i]
@@ -247,7 +370,8 @@ print'''
 # 	test_labels.extend(sent2labels(s))
 
 
-classifier_rbf = svm.SVC(kernel='linear')
+#classifier_rbf = svm.SVC(kernel='linear')
+classifier_rbf = svm.LinearSVC()
 print "Fitting"
 classifier_rbf.fit(train_vectors, train_labels)
 print "Dumping"

@@ -245,7 +245,9 @@ print'''
 # 	test_labels.extend(sent2labels(s))
 
 
-classifier_rbf = svm.SVC(kernel='linear')
+# classifier_rbf = svm.SVC(kernel='linear')
+classifier_rbf = svm.LinearSVC()
+
 print "Fitting"
 classifier_rbf.fit(train_vectors, train_labels)
 print "Dumping"

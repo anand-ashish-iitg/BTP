@@ -223,7 +223,39 @@ def sent2tokens(sent):
 
 # vec = DictVectorizer()
 
+def eventEvaluate(cor,pred):
+	f=open("PredictedTags.pkl", 'rb')
+	predictedEvent = pickle.load(f)
+	f.close()
 
+	f=open("CorrectTags.pkl", 'rb')
+	correctEvent = pickle.load(f)
+	f.close()
+	ind = -1
+	sysandgrnd = 0
+	sys = 0
+	grnd = 0
+	sysandgrndAttr = 0
+	for p in pred:
+		ind += 1
+		if(predictedEvent[ind]!="O"):
+			sys += 1			
+			if(correctEvent[ind]==predictedEvent[ind]):
+				sysandgrnd += 1
+				if(cor[ind]==pred[ind]):
+					sysandgrndAttr += 1
+		if(correctEvent[ind]!="O"):
+			grnd += 1
+
+	prec = sysandgrndAttr/float(sys)
+	rec = sysandgrndAttr/float(grnd)
+	fmes = 2 * prec * rec /(prec + rec)
+	acc = sysandgrndAttr /float(sysandgrnd)
+	print "Performance Measures:"
+	print "Precision  = " +  str(prec)
+	print "Recall  = " +  str(rec)
+	print "Fmeasure  = " +  str(fmes)
+	print "Accuracy = " + str(acc)
 
 
 # load it again
@@ -266,4 +298,5 @@ with open('my_dumped_SVMTypeclassifier.pkl', 'rb') as fid:
 			wantedPredicted.append(predicted_labels[wordCnt])
 
 
-	evaluate(wantedCorrect ,wantedPredicted)
+	# evaluate(wantedCorrect ,wantedPredicted)
+	eventEvaluate(test_labels,predicted_labels)
