@@ -130,7 +130,7 @@ def word2features(sent, i):
 		cui2 = sent[i-2][3]
 		tui2 = sent[i-2][4]
 		features.update({
-			'-2:word': word1,
+			'-2:word': word2,
 			'-2:word.isupper': word2.isupper(),
 			'-2:postag': postag2,
 			'-2:norm': norm2,

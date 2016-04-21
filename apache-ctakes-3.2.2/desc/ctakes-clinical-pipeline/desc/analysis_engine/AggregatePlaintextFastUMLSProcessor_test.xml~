@@ -77,11 +77,11 @@
     <delegateAnalysisEngine key="POSTagger">
       <import location="../../../ctakes-pos-tagger/desc/POSTagger.xml"/>
     </delegateAnalysisEngine>
-	<!-- 
-	<delegateAnalysisEngine key="ClearPOSTagger">
-	<import location="../../../ctakes-pos-tagger/desc/ClearNLPPOSTagger.xml"/>
-	</delegateAnalysisEngine>
-	 -->    
+  <!-- 
+  <delegateAnalysisEngine key="ClearPOSTagger">
+  <import location="../../../ctakes-pos-tagger/desc/ClearNLPPOSTagger.xml"/>
+  </delegateAnalysisEngine>
+   -->    
     <delegateAnalysisEngine key="LvgAnnotator">
       <import location="../../../ctakes-lvg/desc/analysis_engine/LvgAnnotator.xml"/>
     </delegateAnalysisEngine>
@@ -169,7 +169,7 @@
         <node>LvgAnnotator</node>
         <node>ContextDependentTokenizerAnnotator</node>
         <node>POSTagger</node>
-		<!-- <node>ClearPOSTagger</node>  -->        
+    <!-- <node>ClearPOSTagger</node>  -->        
         <node>Chunker</node>
         <node>AdjustNounPhraseToIncludeFollowingNP</node>
         <node>AdjustNounPhraseToIncludeFollowingPPNP</node>
@@ -177,17 +177,17 @@
         <node>DictionaryLookupAnnotatorDB</node>
         <node>DrugNER</node>
         <node>DependencyParser</node>
-		<node>SemanticRoleLabeler</node>        
-		<node>ConstituencyParser</node>
+    <node>SemanticRoleLabeler</node>        
+    <node>ConstituencyParser</node>
         <!-- <node>AssertionAnnotator</node> -->
         <!-- <node>StatusAnnotator</node> -->
-       	<!-- <node>NegationAnnotator</node> -->
-       	<node>GenericCleartkAnalysisEngine</node>
-		<node>HistoryCleartkAnalysisEngine</node>
-		<node>PolarityCleartkAnalysisEngine</node>
-		<node>SubjectCleartkAnalysisEngine</node>
-		<node>UncertaintyCleartkAnalysisEngine</node>
-		    
+         <node>NegationAnnotator</node> 
+        <node>GenericCleartkAnalysisEngine</node>
+    <node>HistoryCleartkAnalysisEngine</node>
+    <node>PolarityCleartkAnalysisEngine</node>
+    <node>SubjectCleartkAnalysisEngine</node>
+    <node>UncertaintyCleartkAnalysisEngine</node>
+        
         <node>ExtractionPrepAnnotator</node>
       </fixedFlow>
     </flowConstraints>
@@ -210,17 +210,17 @@
       <capability>
         <inputs/>
         <outputs>
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.NewlineToken</type>-->
-          <!---<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation</type>-->
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.NewlineToken</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.WordToken</type>
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.VP</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.refsem.UmlsConcept</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.UCP</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.TimeAnnotation</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.SymbolToken</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textspan.Sentence</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textspanSegment</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.SBAR</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.VP</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.refsem.UmlsConcept</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.UCP</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.TimeAnnotation</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.SymbolToken</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textspan.Sentence</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textspanSegment</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.SBAR</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.RomanNumeralAnnotation</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.RangeAnnotation</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.PunctuationToken</type>
@@ -232,9 +232,9 @@
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.OntologyConcept</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.NumToken</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.</type>
-          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.MeasurementAnnotation</type>-->
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.MeasurementAnnotation</type>
           <!--<type allAnnotatorFeatures="true">edu.mayo.bmi.uima.lookup.type.LookupWindowAnnotation</type>-->
-          <!--<type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.Lemma</type>
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.Lemma</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.LST</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.INTJ</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.textsem.FractionAnnotation</type>
@@ -251,7 +251,7 @@
           <type allAnnotatorFeatures="true">uima.cas.AnnotationBase</type>
           <type allAnnotatorFeatures="true">uima.tcas.Annotation</type>
           <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.ADVP</type>
-          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.ADJP</type>        -->
+          <type allAnnotatorFeatures="true">org.apache.ctakes.typesystem.type.syntax.ADJP</type>        
         </outputs>
         <languagesSupported/>
       </capability>

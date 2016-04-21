@@ -181,7 +181,7 @@
     <node>ConstituencyParser</node>
         <!-- <node>AssertionAnnotator</node> -->
         <!-- <node>StatusAnnotator</node> -->
-        <!-- <node>NegationAnnotator</node> -->
+         <node>NegationAnnotator</node> 
         <node>GenericCleartkAnalysisEngine</node>
     <node>HistoryCleartkAnalysisEngine</node>
     <node>PolarityCleartkAnalysisEngine</node>

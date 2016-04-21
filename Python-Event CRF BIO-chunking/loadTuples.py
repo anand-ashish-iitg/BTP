@@ -41,3 +41,23 @@ def load4(trainOrTest):
 			objs.extend(pickle.load(fpkl))
 			fpkl.close()
 	return objs  
+
+def load5(trainOrTest):
+	objs = []
+	for root, dirs, filenames in os.walk("TimedumpPickles/" + trainOrTest):
+		for f in filenames:
+			#print root,dirs,f
+			fpkl=open(root+"/"+f, 'rb')
+			objs.extend(pickle.load(fpkl))
+			fpkl.close()
+	return objs  
+
+def load6(trainOrTest):
+	objs = []
+	for root, dirs, filenames in os.walk("TimeSpandumpPickles/" + trainOrTest):
+		for f in filenames:
+			#print root,dirs,f
+			fpkl=open(root+"/"+f, 'rb')
+			objs.extend(pickle.load(fpkl))
+			fpkl.close()
+	return objs  

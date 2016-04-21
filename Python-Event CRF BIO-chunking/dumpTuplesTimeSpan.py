@@ -1,4 +1,4 @@
-from tokenizerDoctime import getTuples
+from tokenizerTimeSpan import getTuples
 import os  
 
 istrain = False

@@ -21,14 +21,14 @@ def getSpans(filename):
             cords = re.split(';|,',span.childNodes[0].data)
             #print cords
             properties = entity.getElementsByTagName('properties')[0]
-            TypeNode = properties.getElementsByTagName('Class')[0]
-            Type = TypeNode.childNodes[0].data
+            ClassNode = properties.getElementsByTagName('Class')[0]
+            Class = ClassNode.childNodes[0].data
             
-            spans.append((int(cords[0]),int(cords[1]),Type))
+            spans.append((int(cords[0]),int(cords[1]),Class))
             
       return spans      
    except:
       print "Error parsing file : " +  filename
       raise
 
-#print getSpans("/home/subh/Desktop/BTP/Python/gold_annotated/train/ID001_clinic_001/ID001_clinic_001.Temporal-Relation.gold.completed.xml")      
+# print getSpans("/home/subh/Desktop/BTP/Python/gold_annotated/test/ID004_clinic_010/ID004_clinic_010.Temporal-Relation.gold.completed.xml")      

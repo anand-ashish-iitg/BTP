@@ -217,7 +217,7 @@ def word2features(sent, i):
 		if(label!="O"):
 			isEvent =  True
 		features.update({
-			'-2:word': word1,
+			'-2:word': word2,
 			'-2:word.isupper': word2.isupper(),
 			'-2:postag': postag2,
 			'-2:norm': norm2,

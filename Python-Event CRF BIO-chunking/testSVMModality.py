@@ -204,7 +204,7 @@ def word2features(sent, i):
 		cui2 = sent[i-3][3]
 		tui2 = sent[i-3][4]
 		features.update({
-			'-3:word': word1,
+			'-3:word': word2,
 			'-3:word.isupper': word2.isupper(),
 			'-3:postag': postag2,
 			'-3:norm': norm2,
@@ -349,6 +349,39 @@ def sent2tokens(sent):
 # vec = DictVectorizer()
 
 
+# def eventEvaluate(cor,pred):
+# 	f=open("PredictedTags.pkl", 'rb')
+# 	predictedEvent = pickle.load(f)
+# 	f.close()
+
+# 	f=open("CorrectTags.pkl", 'rb')
+# 	correctEvent = pickle.load(f)
+# 	f.close()
+# 	ind = -1
+# 	sysandgrnd = 0
+# 	sys = 0
+# 	grnd = 0
+# 	sysandgrndAttr = 0
+# 	for p in pred:
+# 		ind += 1
+# 		if(predictedEvent[ind]!="O"):
+# 			sys += 1			
+# 			if(correctEvent[ind]==predictedEvent[ind]):
+# 				sysandgrnd += 1
+# 				if(cor[ind]==pred[ind]):
+# 					sysandgrndAttr += 1
+# 		if(correctEvent[ind]!="O"):
+# 			grnd += 1
+
+# 	prec = sysandgrndAttr/float(sys)
+# 	rec = sysandgrndAttr/float(grnd)
+# 	fmes = 2 * prec * rec /(prec + rec)
+# 	acc = sysandgrndAttr /float(sysandgrnd)
+# 	print "Performance Measures:"
+# 	print "Precision  = " +  str(prec)
+# 	print "Recall  = " +  str(rec)
+# 	print "Fmeasure  = " +  str(fmes)
+# 	# print "Accuracy = " + str(acc)
 def eventEvaluate(cor,pred):
 	f=open("PredictedTags.pkl", 'rb')
 	predictedEvent = pickle.load(f)
@@ -363,13 +396,26 @@ def eventEvaluate(cor,pred):
 	grnd = 0
 	sysandgrndAttr = 0
 	for p in pred:
-		ind += 1
+		ind += 1		
+
 		if(predictedEvent[ind]!="O"):
-			sys += 1			
-			if(correctEvent[ind]==predictedEvent[ind]):
-				sysandgrnd += 1
-				if(cor[ind]==pred[ind]):
-					sysandgrndAttr += 1
+			if(pred[ind]=="I-EVENT"):
+				#something
+				prev = ind -1
+				while(prev>0 and pred[prev]=="I-EVENT"):
+					prev -= 1
+				if(prev>=0 and pred[prev]=="B-EVENT"):
+					sys += 1			
+					if(correctEvent[ind]==predictedEvent[ind]):
+						sysandgrnd += 1
+						if(cor[ind]==pred[ind]):
+							sysandgrndAttr += 1
+			else:
+				sys += 1			
+				if(correctEvent[ind]==predictedEvent[ind]):
+					sysandgrnd += 1
+					if(cor[ind]==pred[ind]):
+						sysandgrndAttr += 1
 		if(correctEvent[ind]!="O"):
 			grnd += 1
 
@@ -381,7 +427,7 @@ def eventEvaluate(cor,pred):
 	print "Precision  = " +  str(prec)
 	print "Recall  = " +  str(rec)
 	print "Fmeasure  = " +  str(fmes)
-	print "Accuracy = " + str(acc)
+	# print "Accuracy = " + str(acc)
 
 # load it again
 with open('my_dumped_SVMModalityclassifier.pkl', 'rb') as fid:
@@ -414,6 +460,14 @@ with open('my_dumped_SVMModalityclassifier.pkl', 'rb') as fid:
 
 	#print "Predict:" +str(predicted_labels)
 	#print "correct : " + str(test_labels)
+
+	f=open("PredictedTagsModality.pkl", 'wb')
+	pickle.dump(predicted_labels, f)
+	f.close()
+
+	f=open("CorrectTagsModality.pkl", 'wb')
+	pickle.dump(test_labels, f)
+	f.close()	
 
 	wantedCorrect = []
 	wantedPredicted = []

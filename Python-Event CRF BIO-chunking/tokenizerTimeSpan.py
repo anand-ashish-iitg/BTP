@@ -74,18 +74,19 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                             running_offset = word_offset + word_len
                             label = "O"
                             medlabel = "O"   
+                            medclass = "DATE"
                             Class = "DATE"                         
                             for cord in spans:
                                 #print cord[0],cord[1]                                    
                                 if(word_offset==cord[0]):
                                     #print "B-EENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
                                     Class =  cord[2]
-                                    label = "B-" + Class
+                                    label = "B-TIMEX"
                                     break
                                 elif(word_offset>cord[0] and (running_offset)<=cord[1]):
                                     #print " I-EVENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
                                     Class =  cord[2]
-                                    label = "I-" + Class
+                                    label = "I-TIMEX" 
                                     break    
 
                             for cord in medspans:
@@ -93,12 +94,12 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                                 if(word_offset==cord[0]):
                                     #print "B-EENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
                                     medclass =  cord[2]
-                                    medlabel = "B-" + medclass
+                                    medlabel = "B-TIMEX"
                                     break
                                 elif(word_offset>cord[0] and (running_offset)<=cord[1]):
                                     #print " I-EVENT word = " + word + " spanned string = " + text[cord[0]:cord[1]] +  " cord[0],cord[1] = " + str(cord[0])+","+str(cord[1]) + "word_offset,run off  = " +str(word_offset) +"," + str(running_offset)
                                     medclass =  cord[2]
-                                    medlabel = "I-" + medclass
+                                    medlabel = "I-TIMEX" 
                                     break              
                         except ValueError:
                             label = "O"
@@ -107,10 +108,10 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                             continue
                         
                         #print word,label
-                        offsets.append((word, pos[1], label, word_offset, running_offset-1, fileName, medlabel, Class))
+                        offsets.append((word, pos[1], label, word_offset, running_offset-1, fileName, medlabel, Class, medclass))
                         #print text[word_offset:running_offset] + " " + word
                     textOffsets.append(offsets)
-                f=open("TimedumpPickles/" + trainOrTest + "/" + fileName + "-" + pickleFile, 'wb')
+                f=open("TimeSpandumpPickles/" + trainOrTest + "/" + fileName + "-" + pickleFile, 'wb')
                 pickle.dump(textOffsets, f)
                 f.close()
                 return textOffsets
