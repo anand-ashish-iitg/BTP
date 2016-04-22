@@ -325,6 +325,7 @@ f=open("CorrectTags.pkl", 'wb')
 pickle.dump(correct, f)
 f.close()
 
+#partial match
 def eventEvaluate(cor,pred):
 	ind = -1
 	sysandgrnd = 0
@@ -348,28 +349,39 @@ def eventEvaluate(cor,pred):
 					sysandgrnd += 1
 		if(cor[ind]!="O"):
 			grnd += 1
+	prec = sysandgrnd/float(sys)
+	rec = sysandgrnd/float(grnd)
+	fmes = 2 * prec * rec /(prec + rec)
+	print "Performance Measures:"
+	print "Precision  = " +  str(prec)
+	print "Recall  = " +  str(rec)
+	print "Fmeasure  = " +  str(fmes)
 
-# def eventEvaluate(cor,pred):
-# 	ind = -1
-# 	sysandgrnd = 0
-# 	sys = 0
-# 	grnd = 0
-# 	for p in pred:
-# 		ind += 1
-# 		if(pred[ind]!="O"):
-# 			sys += 1
-# 			if(cor[ind]==pred[ind]):
-# 				sysandgrnd += 1
-# 		if(cor[ind]!="O"):
-# 			grnd += 1
+#exact match
+def exactEvaluate(cor,pred):
+	ind = -1
+	sysandgrnd = 0
+	sys = 0
+	grnd = 0
+	for p in pred:
+		ind += 1
+		if(pred[ind]=="B-EVENT"):
+			sys += 1
+			if(cor[ind]=="B-EVENT"):
+				diff = 1
+				correct = True
+				while(ind+diff<len(pred) and pred[ind+diff]=="I-EVENT"):
+					if(pred[ind+diff]==cor[ind+diff]):
+						diff += 1
+					else:
+						correct = False
+						break
+				if(correct):
+					sysandgrnd += 1
 
-# 	prec = sysandgrnd/float(sys)
-# 	rec = sysandgrnd/float(grnd)
-# 	fmes = 2 * prec * rec /(prec + rec)
-# 	print "Performance Measures:"
-# 	print "Precision  = " +  str(prec)
-# 	print "Recall  = " +  str(rec)
-# 	print "Fmeasure  = " +  str(fmes)			
+		
+		if(cor[ind]=="B-EVENT"):
+			grnd += 1	
 
 	prec = sysandgrnd/float(sys)
 	rec = sysandgrnd/float(grnd)
@@ -381,7 +393,8 @@ def eventEvaluate(cor,pred):
 
 
 
-eventEvaluate(correct,predicted)
+# eventEvaluate(correct,predicted)
+exactEvaluate(correct,predicted)
 
 
 
