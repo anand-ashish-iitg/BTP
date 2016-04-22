@@ -333,21 +333,21 @@ def eventEvaluate(cor,pred):
 	grnd = 0
 	for p in pred:
 		ind += 1
-		if(pred[ind]!="O"):
-			# for the Inside event tag check whether the begin tag was correctly identiied or not
-			if(pred[ind]=="I-EVENT"):
-				prev = ind -1
-				while(prev>0 and pred[prev]=="I-EVENT"):
-					prev -= 1
-				if(prev>=0 and pred[prev]=="B-EVENT"):
-					sys += 1
-					if(cor[ind]==pred[ind]):
-						sysandgrnd += 1
-			else:
-				sys += 1
-				if(cor[ind]==pred[ind]):
-					sysandgrnd += 1
-		if(cor[ind]!="O"):
+		if(pred[ind]=="B-EVENT"):
+			# for the Inside event tag check whether the begin tag was correctly identified or not
+			# if(pred[ind]=="I-EVENT"):
+			# 	prev = ind -1
+			# 	while(prev>0 and pred[prev]=="I-EVENT"):
+			# 		prev -= 1
+			# 	if(prev>=0 and pred[prev]=="B-EVENT"):
+			# 		sys += 1
+			# 		if(cor[ind]==pred[ind]):
+			# 			sysandgrnd += 1
+			# else:
+			sys += 1
+			if(cor[ind]==pred[ind]):
+				sysandgrnd += 1
+		if(cor[ind]=="B-EVENT"):
 			grnd += 1
 	prec = sysandgrnd/float(sys)
 	rec = sysandgrnd/float(grnd)
@@ -393,8 +393,8 @@ def exactEvaluate(cor,pred):
 
 
 
-# eventEvaluate(correct,predicted)
-exactEvaluate(correct,predicted)
+eventEvaluate(correct,predicted)
+# exactEvaluate(correct,predicted)
 
 
 

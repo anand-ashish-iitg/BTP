@@ -330,11 +330,21 @@ def eventEvaluate(cor,pred):
 	for p in pred:
 		ind += 1
 		if(pred[ind]!="O"):
-			sys += 1
-			if(cor[ind]==pred[ind]):
-				sysandgrnd += 1
+			# for the Inside event tag check whether the begin tag was correctly identiied or not
+			if(pred[ind]=="I-TIMEX"):
+				prev = ind -1
+				while(prev>0 and pred[prev]=="I-TIMEX"):
+					prev -= 1
+				if(prev>=0 and pred[prev]=="B-TIMEX"):
+					sys += 1
+					if(cor[ind]==pred[ind]):
+						sysandgrnd += 1	
+			else:
+				sys += 1
+				if(cor[ind]==pred[ind]):
+					sysandgrnd += 1
 		if(cor[ind]!="O"):
-			grnd += 1
+			grnd += 1	
 
 	prec = sysandgrnd/float(sys)
 	rec = sysandgrnd/float(grnd)
@@ -408,8 +418,8 @@ with open('my_dumped_SVMTimexSpan.pkl', 'rb') as fid:
 	# print "Predict:" +str(predicted_labels)
 	# print "correct : " + str(test_labels)
 	# evaluate(test_labels ,predicted_labels)
-	eventEvaluate(test_labels,predicted_labels)
-	# exactEvaluate(test_labels,predicted_labels)
+	# eventEvaluate(test_labels,predicted_labels)
+	exactEvaluate(test_labels,predicted_labels)
 
 
 

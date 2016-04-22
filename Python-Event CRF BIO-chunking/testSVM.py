@@ -304,11 +304,11 @@ def eventEvaluate(cor,pred):
 	grnd = 0
 	for p in pred:
 		ind += 1
-		if(pred[ind]!="O"):
+		if(pred[ind]=="B-EVENT"):
 			sys += 1
 			if(cor[ind]==pred[ind]):
 				sysandgrnd += 1
-		if(cor[ind]!="O"):
+		if(cor[ind]=="B-EVENT"):
 			grnd += 1
 
 	prec = sysandgrnd/float(sys)

@@ -9,6 +9,7 @@ import pycrfsuite
 from loadTuples import load,load2, load3
 from sklearn import svm
 from evalt import *
+from collections import Counter
 import sentlex
 
 test_sents = load3("test")
@@ -304,6 +305,63 @@ def eventEvaluate(cor,pred):
 	print "Fmeasure  = " +  str(fmes)
 	# print "Accuracy = " + str(acc)	
 
+	#exact match
+def exactEvaluate(cor,pred):
+	f=open("PredictedTags.pkl", 'rb')
+	predictedEvent = pickle.load(f)
+	f.close()
+
+	f=open("CorrectTags.pkl", 'rb')
+	correctEvent = pickle.load(f)
+	f.close()
+
+	ind = -1
+	sysandgrnd = 0
+	sys = 0
+	grnd = 0
+	sysandgrndAttr = 0
+	for p in pred:
+		ind += 1
+		if(predictedEvent[ind]=="B-EVENT"):
+			sys += 1
+			if(correctEvent[ind]=="B-EVENT"):
+				diff = 1
+				correct = True
+				lcor = []
+				lpred = []
+				lcor.append(cor[ind])
+				lpred.append(pred[ind])
+				while(ind+diff<len(predictedEvent) and predictedEvent[ind+diff]=="I-EVENT"):
+					if(predictedEvent[ind+diff]==correctEvent[ind+diff]):
+						diff += 1
+						lcor.append(cor[ind+diff])
+						lpred.append(pred[ind+diff])
+					else:
+						correct = False
+						break
+				if(correct):
+					sysandgrnd += 1
+					# if(pred[ind]==cor[ind]):
+					# 	sysandgrndAttr += 1
+					predval,n1 = Counter(lpred).most_common(1)[0]
+					corval,n2 = Counter(lcor).most_common(1)[0]
+					if(predval==corval):
+						sysandgrndAttr += 1
+
+		
+		if(correctEvent[ind]=="B-EVENT"):
+			grnd += 1	
+
+	prec = sysandgrndAttr/float(sys)
+	rec = sysandgrndAttr/float(grnd)
+	fmes = 2 * prec * rec /(prec + rec)
+	acc = sysandgrndAttr /float(sysandgrnd)
+	print "Performance Measures:"
+	print "Precision  = " +  str(prec)
+	print "Recall  = " +  str(rec)
+	print "Fmeasure  = " +  str(fmes)
+	print "Accuracy = " + str(acc)
+
 
 # load it again
 with open('my_dumped_SVMTDegreeclassifier.pkl', 'rb') as fid:
@@ -354,4 +412,5 @@ with open('my_dumped_SVMTDegreeclassifier.pkl', 'rb') as fid:
 
 
 	# evaluate(wantedCorrect ,wantedPredicted)
-	eventEvaluate(test_labels,predicted_labels)
+	# eventEvaluate(test_labels,predicted_labels)
+	exactEvaluate(test_labels,predicted_labels)
