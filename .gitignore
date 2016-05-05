@@ -2,3 +2,5 @@ CtakesProcessing/Ctakesoutput
 CtakesProcessing/ctakesProcessed
 apache-ctakes-3.2.2/resources
 apache-ctakes-3.2.2/lib
+apache-ctakes-3.2.2/bin/run*
+

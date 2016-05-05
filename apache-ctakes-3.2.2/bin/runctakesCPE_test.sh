@@ -42,4 +42,4 @@ PRGDIR=`dirname "$PRG"`
 [ -z "$CTAKES_HOME" ] && CTAKES_HOME=`cd "$PRGDIR/.." >/dev/null; pwd`
 
 cd $CTAKES_HOME
-java -Dctakes.umlsuser=UML_USERNAME ctakes.umlspw=UMLS_PASSWORD -cp $CTAKES_HOME/lib/*:$CTAKES_HOME/desc/:$CTAKES_HOME/resources/ -Dlog4j.configuration=file:$CTAKES_HOME/config/log4j.xml -Xms2g -Xmx3g org.apache.uima.examples.cpe.SimpleRunCPE $CTAKES_HOME/desc/ctakes-clinical-pipeline/desc/collection_processing_engine/test_plaintext_test.xml
+java -Dctakes.umlsuser=UMLS_USERNAME ctakes.umlspw=UMLS_PASSWORD -cp $CTAKES_HOME/lib/*:$CTAKES_HOME/desc/:$CTAKES_HOME/resources/ -Dlog4j.configuration=file:$CTAKES_HOME/config/log4j.xml -Xms2g -Xmx3g org.apache.uima.examples.cpe.SimpleRunCPE $CTAKES_HOME/desc/ctakes-clinical-pipeline/desc/collection_processing_engine/test_plaintext_test.xml
