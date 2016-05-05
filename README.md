@@ -109,19 +109,19 @@ Preprocessing the gold annotated and the raw data to get the tags required for t
 
 	For the test file:
 
-	$ python  dumpTuples.py
-	$ python  dumpTuplesSVM.py
-	$ python  dumpTuplesTime.py
-	$ python  dumpTuplesDoctime.py
-	$ python  dumpTuplesTimeSpan.py
+	$ python dumpTuples.py
+	$ python dumpTuplesSVM.py
+	$ python dumpTuplesTime.py
+	$ python dumpTuplesDoctime.py
+	$ python dumpTuplesTimeSpan.py
 
 	For the training files:
 
-	$ python  dumpTuples.py train
-	$ python  dumpTuplesSVM.py train
-	$ python  dumpTuplesTime.py train
-	$ python  dumpTuplesDoctime.py train
-	$ python  dumpTuplesTimeSpan.py train
+	$ python dumpTuples.py train
+	$ python dumpTuplesSVM.py train
+	$ python dumpTuplesTime.py train
+	$ python dumpTuplesDoctime.py train
+	$ python dumpTuplesTimeSpan.py train
 
 - This completes the preprocessing part of our project.
 
