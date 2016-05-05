@@ -93,7 +93,7 @@ Preprocessing the gold annotated and the raw data to get the tags required for t
 - Create folders and copy the necessary files
 	* ctakesProcessed: cTAKES processed output already generated earlier.
 	* gold_annotated: the annotated train and test data in corresponding train and test folders.
-	* MedTime-output: the output generated from MedTime that we have already obtained
+	* MedTime-output: the output generated from MedTime that we have already obtained.
 	* raw_data: the raw text files in subdirectories train and test respectively.
 
 - Create empty directories each with subfolders train and test.
