@@ -99,9 +99,7 @@
 - Create empty directories each with subfolders train and test.
 	- MedTimeTemp-output: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
 	- DocTimedumpPickles: for dump files required for DocTime relation identification.
-     	- MedTimeTemp-output: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
 	- dumpPickles: for preprocessed data for Event Span detection.
-
 	- SVMdumpPickles: Used for preprocessed data for SVM Event attributes detection.
 	- System-output: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
 	- TimedumpPickles: for preprocessed data used by Time attributes detection.
