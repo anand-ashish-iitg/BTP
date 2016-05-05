@@ -1,5 +1,3 @@
-import pickle
-from sklearn.feature_extraction import DictVectorizer
 from itertools import chain
 import nltk
 from sklearn.metrics import classification_report, confusion_matrix
@@ -7,9 +5,14 @@ from sklearn.preprocessing import LabelBinarizer
 import sklearn
 import pycrfsuite
 from loadTuples import *
-from sklearn import svm
+import pickle
 from evalt import *
+import sentlex
 
+test_sents = load6("test")
+#print train_sents
+#print "sent =" +str(len(train_sents))
+SWN = sentlex.SWN3Lexicon()
 
 
 def getIsSpell(word):
@@ -47,14 +50,6 @@ def getIsPrePost(word):
 		return True
 
 	return False
-
-
-import sentlex
-test_sents = load6("test")
-# test_sents = load2("test")[:100]
-#print train_sents
-#print "sent =" +str(len(train_sents))
-SWN = sentlex.SWN3Lexicon()
 
 def word2features(sent, i):
 	word = sent[i][0]
@@ -291,36 +286,64 @@ def word2features(sent, i):
 		features.update({'EOS3':True})
 	return features
 
-def getNum(label):
-	if(label == "B-TIMEX"):
-		return 1
-	elif(label == "I-TIMEX"):
-		return 2
-	else:
-	 return 0
 
 def sent2features(sent):
-	feature = [word2features(sent, i) for i in range(len(sent)) ]
-	
-	'''print "feature for sentence" + str(sent)
-	print
-	print "Feature"
-	print str(feature)'''
-	return feature
+    return [word2features(sent, i) for i in range(len(sent))]
 
 def sent2labels(sent):
 	#print sent
-	# return [label for token, postag, norm, cui, tui, label, start, end in sent]
-	return [label for token, postag, label, start, end, fileName, medlabel, Class, Medclass in sent]
-
+	#return [label for token, postag, norm, cui, tui, label, start, end in sent]
+	return [label for token, postag, label, start, end, fileName, medlabel, Class, MedClass in sent]
 
 def sent2tokens(sent):
-    # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
-	return [token for token, postag, label, start, end, fileName, medlabel, Class, Medclass in sent]
+    #return [token for token, postag, norm, cui, tui, label, start, end  in sent]    
+    return [token for token, postag, label, start, end, fileName, medlabel, Class, MedClass in sent]
+#print sent2features(train_sents[0])[0]    
 
-# vec = DictVectorizer()
+#print sent2features(train_sents[0])[0]    
 
 
+print "Doing for test"
+
+predicted = []
+correct = []
+
+tagger = pycrfsuite.Tagger()
+#tagger.open('tempeval2016-eventNEG.crfsuite')
+tagger.open('tempeval2016-timexSpan.crfsuite')
+
+
+for sent in test_sents:
+	predicted.extend(tagger.tag(sent2features(sent)))
+	correct.extend(sent2labels(sent))
+
+predicted_eval = []
+correct_eval = []
+ind =-1
+'''for pred in predicted:
+	ind += 1
+	if(predicted[ind]=="I-EVENT"):
+		prev_ind= ind-1
+		while prev_ind>=0 and predicted[prev_ind]=="I-EVENT":
+			prev_ind -= 1
+		if prev_ind >=0 and predicted[prev_ind] == "B-EVENT":
+			predicted_eval.extend(predicted[ind])		
+			correct_eval.extend(correct[ind])
+		# do something
+	else:
+		predicted_eval.extend(predicted[ind])		
+		correct_eval.extend(correct[ind])
+'''
+
+
+
+f=open("PredictedTagsTimexSpan.pkl", 'wb')
+pickle.dump(predicted, f)
+f.close()
+
+f=open("CorrectTagsTimexSpan.pkl", 'wb')
+pickle.dump(correct, f)
+f.close()
 
 def eventEvaluate(cor,pred):
 	ind = -1
@@ -354,6 +377,7 @@ def eventEvaluate(cor,pred):
 	print "Recall  = " +  str(rec)
 	print "Fmeasure  = " +  str(fmes)
 
+#exact match
 def exactEvaluate(cor,pred):
 	ind = -1
 	sysandgrnd = 0
@@ -387,49 +411,20 @@ def exactEvaluate(cor,pred):
 	print "Recall  = " +  str(rec)
 	print "Fmeasure  = " +  str(fmes)
 
-
-# load it again
-with open('my_dumped_SVMTimexSpan.pkl', 'rb') as fid:
-	classifier_rbf = pickle.load(fid)
-	vec =  pickle.load(fid)
-	print "Test part"
-	test_data =[]
-	for s in test_sents:
-		test_data.extend(sent2features(s))
-
-	test_vectors = vec.transform(test_data)
-
-	test_labels = []
-	for s in test_sents:
-		test_labels.extend(sent2labels(s))
-
-	
-	prediction_rbf = classifier_rbf.predict(test_vectors)	
-	prediction_rbf = list(prediction_rbf)
-	predicted_labels = []
-	for num in  prediction_rbf:
-		if(num==1):
-			predicted_labels.append("B-TIMEX")
-		elif(num==2):
-			predicted_labels.append("I-TIMEX")
-		else:
-			predicted_labels.append("O")	
-
-	f=open("PredictedTagsSVM-TIMEXSpan.pkl", 'wb')
-	pickle.dump(predicted_labels, f)
-	f.close()
-
-	f=open("CorrectTagsSVM-TIMEXSpan.pkl", 'wb')
-	pickle.dump(test_labels, f)
-	f.close()	
-
-	# print "Predict:" +str(predicted_labels)
-	# print "correct : " + str(test_labels)
-	# evaluate(test_labels ,predicted_labels)
-	# eventEvaluate(test_labels,predicted_labels)
-	exactEvaluate(test_labels,predicted_labels)
+# eventEvaluate(correct,predicted)
+# evaluate(correct,predicted)
+exactEvaluate(correct,predicted)
 
 
 
 
+# example_sent = test_sents[4]
+# print(' '.join(sent2tokens(example_sent)))
 
+# #print("Predicted:", ' '.join(tagger.tag(sent2features(example_sent))))
+# #print("Correct:  ", ' '.join(sent2labels(example_sent)))
+# predicted = tagger.tag(sent2features(example_sent))
+# correct = sent2labels(example_sent)
+# print "\tToken\t\tPredicted\t\tCorrect"
+# for i in range(0,len(predicted)):
+# 	print "\t"+example_sent[i][0]+"\t\t" + predicted[i]+ "\t\t" + correct[i]

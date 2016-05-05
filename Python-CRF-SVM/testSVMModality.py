@@ -143,7 +143,7 @@ def word2features(sent, i):
 		cui2 = sent[i-2][3]
 		tui2 = sent[i-2][4]
 		features.update({
-			'-2:word': word2,
+			'-2:word': word1,
 			'-2:word.isupper': word2.isupper(),
 			'-2:postag': postag2,
 			'-2:norm': norm2,
@@ -185,6 +185,129 @@ def word2features(sent, i):
 	else:
 		features.update({'EOS2':True})
 
+		# 3rd token before after
+
+	if i > 2:
+		word2 = sent[i-3][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = Eventpredicted[wordCnt-3]
+		postag2 = sent[i-3][1]
+		norm2 = sent[i-3][2]
+		cui2 = sent[i-3][3]
+		tui2 = sent[i-3][4]
+		features.update({
+			'-3:word': word2,
+			'-3:word.isupper': word2.isupper(),
+			'-3:postag': postag2,
+			'-3:norm': norm2,
+			'-3:cui': cui2,
+			'-3:tui': tui2,
+			'-3:Pol':	Pol2,	
+			'-3:Event': Event2,
+		})
+	else:
+		features.update({'BOS3':True})
+
+	if i < len(sent)-3:
+		word2 = sent[i+3][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = Eventpredicted[wordCnt+3]
+		postag2 = sent[i+3][1]
+		norm2 = sent[i+3][2]
+		cui2 = sent[i+3][3]
+		tui2 = sent[i+3][4]
+		features.update({
+			'+3:word': word2,
+			'+3:word.isupper': word2.isupper(),
+			'+3:postag': postag2,
+			'+3:norm': norm2,
+			'+3:cui': cui2,
+			'+3:tui': tui2,
+			'+3:Pol':	Pol2,	
+			'+3:Event': Event2,
+		})
+	else:
+		features.update({'EOS3':True})
+
+		# 4th token before after
+
+	if i > 3:
+		word2 = sent[i-4][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 =Eventpredicted[wordCnt-4]
+		postag2 = sent[i-4][1]
+		norm2 = sent[i-4][2]
+		cui2 = sent[i-4][3]
+		tui2 = sent[i-4][4]
+		features.update({
+			'-4:word': word1,
+			'-4:word.isupper': word2.isupper(),
+			'-4:postag': postag2,
+			'-4:norm': norm2,
+			'-4:cui': cui2,
+			'-4:tui': tui2,
+			'-4:Pol':	Pol2,	
+			'-4:Event': Event2,
+		})
+	else:
+		features.update({'BOS4':True})
+
+	if i < len(sent)-4:
+		word2 = sent[i+4][0]
+		(pos2,neg2) = (0,0)
+		(p12,n12) = SWN.getadjective(word2)
+		(p22,n22) = SWN.getnoun(word2)
+		(p32,n32) = SWN.getverb(word2)
+		(p42,n42) = SWN.getadverb(word2)
+		pos2+= (p12+p22+p32+p42)
+		neg2+= (n12+n22+n32+n42)
+		Pol2 = True
+		if(neg2>pos2):
+			Pol2=False
+		Event2 = Eventpredicted[wordCnt+4]
+		postag2 = sent[i+4][1]
+		norm2 = sent[i+4][2]
+		cui2 = sent[i+4][3]
+		tui2 = sent[i+4][4]
+		features.update({
+			'+4:word': word2,
+			'+4:word.isupper': word2.isupper(),
+			'+4:postag': postag2,
+			'+4:norm': norm2,
+			'+4:cui': cui2,
+			'+4:tui': tui2,
+			'+4:Pol':	Pol2,	
+			'+4:Event': Event2,
+		})
+	else:
+		features.update({'EOS4':True})
 
 	'''print "word : "  
 	print  sent[i]
@@ -196,12 +319,14 @@ def word2features(sent, i):
 
 
 def getNum(label):
-	if(label == "LITTLE"):
-		return -1
-	elif(label == "MOST"):
+	if(label == "HEDGED"):
+		return 0
+	elif(label == "GENERIC"):
 		return 1
+	elif(label == "HYPOTHETICAL"):
+		return 2
 	else:
-	 return 0
+	 return 3
 
 def sent2features(sent):
 	feature = [word2features(sent, i) for i in range(len(sent)) ]
@@ -215,7 +340,7 @@ def sent2features(sent):
 def sent2labels(sent):
 	#print sent
 	# return [label for token, postag, norm, cui, tui, label, start, end in sent]
-	return [Degree for token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]
+	return [Modality for token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]
 
 
 def sent2tokens(sent):
@@ -223,6 +348,7 @@ def sent2tokens(sent):
 	return [token for token, postag, norm, cui, tui, label, start, end , fileName, Type, Degree, Polarity, Modality, Aspect in sent]    
 
 # vec = DictVectorizer()
+
 
 # def eventEvaluate(cor,pred):
 # 	f=open("PredictedTags.pkl", 'rb')
@@ -256,8 +382,7 @@ def sent2tokens(sent):
 # 	print "Precision  = " +  str(prec)
 # 	print "Recall  = " +  str(rec)
 # 	print "Fmeasure  = " +  str(fmes)
-	# print "Accuracy = " + str(acc)
-
+# 	# print "Accuracy = " + str(acc)
 def eventEvaluate(cor,pred):
 	f=open("PredictedTags.pkl", 'rb')
 	predictedEvent = pickle.load(f)
@@ -266,7 +391,6 @@ def eventEvaluate(cor,pred):
 	f=open("CorrectTags.pkl", 'rb')
 	correctEvent = pickle.load(f)
 	f.close()
-	
 	ind = -1
 	sysandgrnd = 0
 	sys = 0
@@ -304,7 +428,7 @@ def eventEvaluate(cor,pred):
 	print "Precision  = " +  str(prec)
 	print "Recall  = " +  str(rec)
 	print "Fmeasure  = " +  str(fmes)
-	# print "Accuracy = " + str(acc)	
+	print "Accuracy = " + str(acc)
 
 	#exact match
 def exactEvaluate(cor,pred):
@@ -365,7 +489,7 @@ def exactEvaluate(cor,pred):
 
 
 # load it again
-with open('my_dumped_SVMTDegreeclassifier.pkl', 'rb') as fid:
+with open('my_dumped_SVMModalityclassifier.pkl', 'rb') as fid:
 	classifier_rbf = pickle.load(fid)
 	vec =  pickle.load(fid)
 	print "Test part"
@@ -384,23 +508,25 @@ with open('my_dumped_SVMTDegreeclassifier.pkl', 'rb') as fid:
 	prediction_rbf = list(prediction_rbf)
 	predicted_labels = []
 	for num in  prediction_rbf:
-		if(num==-1):
-			predicted_labels.append("LITTLE")
+		if(num==0):
+			predicted_labels.append("HEDGED")
 		elif(num==1):
-			predicted_labels.append("MOST")		
+			predicted_labels.append("GENERIC")		
+		elif(num==2):
+			predicted_labels.append("HYPOTHETICAL")		
 		else:
-			predicted_labels.append("N/A")
+			predicted_labels.append("ACTUAL")
 
 	#print "Predict:" +str(predicted_labels)
 	#print "correct : " + str(test_labels)
 
-	f=open("PredictedTagsDegree.pkl", 'wb')
+	f=open("PredictedTagsModality.pkl", 'wb')
 	pickle.dump(predicted_labels, f)
 	f.close()
 
-	f=open("CorrectTagsDegree.pkl", 'wb')
+	f=open("CorrectTagsModality.pkl", 'wb')
 	pickle.dump(test_labels, f)
-	f.close()
+	f.close()	
 
 	wantedCorrect = []
 	wantedPredicted = []

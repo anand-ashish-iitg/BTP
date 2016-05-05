@@ -1,121 +1,120 @@
-import pickle
-from sklearn.feature_extraction import DictVectorizer
 from itertools import chain
 import nltk
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.preprocessing import LabelBinarizer
 import sklearn
 import pycrfsuite
-from loadTuples import load,load2,load3
-from sklearn import svm
+from loadTuples import load,load3
+from evalt import *
+import pickle
 from evalt import *
 
-
-'''test_sents = load2("test")
-#print train_sents
-#print "sent =" +str(len(train_sents))
+#print nltk.corpus.conll2002.fileids()
+'''
+test_sents = load("test")
+#print test_sents
 def word2features(sent, i):
+    word = sent[i][0]
+    postag = sent[i][1]
+    norm = sent[i][2]
+    cui = sent[i][3]
+    tui = sent[i][4]
+    features = [
+        'bias',
+        'word=' + word,
+        'word[-3:]=' + word[-3:],
+        'word[-2:]=' + word[-2:],
+        'word[:3]=' + word[:3],        
+        'word.isupper=%s' % word.isupper(),
+        'word.isdigit=%s' % word.isdigit(),
+        'postag=' + postag,
+        'norm=' + norm,
+        'cui=' + cui,
+        'tui=' + tui,
+    ]
 
-	word = sent[i][0]
-	postag = sent[i][1]
-	norm = sent[i][2]
-	cui = sent[i][3]
-	tui = sent[i][4]
-	features = {
-		'word=' :  word,
-		'word[-3:]' : word[-3:],
-		'word[-2:]' : word[-2:],
-		'word[:3]' : word[:3],        
-		'word.isupper':  word.isupper(),
-		'word.isdigit':  word.isdigit(),
-		'postag':  postag,
-		'norm':  norm,
-		'cui' : cui,
-		'tui:' : tui,
-	}
-	if(i > 0):
+    if i > 0:
 		word1 = sent[i-1][0]
 		postag1 = sent[i-1][1]
 		norm1 = sent[i-1][2]
 		cui1 = sent[i-1][3]
 		tui1 = sent[i-1][4]
-		features.update({
-			'-1:word':  word1,
-			'-1:word.isupper': word1.isupper(),
-			'-1:postag' : postag1,
-			'-1:norm' : norm1,
-			'-1:cui' : cui1,
-			'-1:tui' : tui1,
-		})
-	else:
-		features.update({'BOS':True})
-
-
-
-
-
-
-	if i < len(sent)-1:
+		features.extend([
+		    '-1:word=' + word1,
+		    '-1:word.isupper=%s' % word1.isupper(),
+		    '-1:postag=' + postag1,
+		    '-1:norm=' + norm1,
+		    '-1:cui=' + cui1,
+		    '-1:tui=' + tui1,
+		])
+    else:
+        features.append('BOS')
+        
+    if i < len(sent)-1:
 		word1 = sent[i+1][0]
 		postag1 = sent[i+1][1]
 		norm1 = sent[i+1][2]
 		cui1 = sent[i+1][3]
 		tui1 = sent[i+1][4]
-		features.update({
-			'+1:word': word1,
-			'+1:word.isupper': word1.isupper(),
-			'+1:postag': postag1,
-			'+1:norm': norm1,
-			'+1:cui': cui1,
-			'+1:tui': tui1,
-		})
-	else:
-		features.update({'EOS':True})
+		features.extend([
+		    '+1:word=' + word1,
+		    '+1:word.isupper=%s' % word1.isupper(),
+		    '+1:postag=' + postag1,
+		    '+1:norm=' + norm1,
+		    '+1:cui=' + cui1,
+		    '+1:tui=' + tui1,
+		])
+    else:
+        features.append('EOS')
 
-	if i > 1:
+
+    if i > 1:
 		word2 = sent[i-2][0]
 		postag2 = sent[i-2][1]
 		norm2 = sent[i-2][2]
 		cui2 = sent[i-2][3]
 		tui2 = sent[i-2][4]
-		features.update({
-			'-2:word': word1,
-			'-2:word.isupper': word2.isupper(),
-			'-2:postag': postag2,
-			'-2:norm': norm2,
-			'-2:cui': cui2,
-			'-2:tui': tui2,
-		})
-	else:
-		features.update({'BOS2':True})
-
-	if i < len(sent)-2:
+		features.extend([
+		    '-2:word=' + word1,
+		    '-2:word.isupper=%s' % word2.isupper(),
+		    '-2:postag=' + postag2,
+		    '-2:norm=' + norm2,
+		    '-2:cui=' + cui2,
+		    '-2:tui=' + tui2,
+		])
+    else:
+        features.append('BOS2')
+        
+    if i < len(sent)-2:
 		word2 = sent[i+2][0]
 		postag2 = sent[i+2][1]
 		norm2 = sent[i+2][2]
 		cui2 = sent[i+2][3]
 		tui2 = sent[i+2][4]
-		features.update({
-			'+2:word': word2,
-			'+2:word.isupper': word2.isupper(),
-			'+2:postag': postag2,
-			'+2:norm': norm2,
-			'+2:cui': cui2,
-			'+2:tui': tui2,
-		})
-	else:
-		features.update({'EOS2':True})
+		features.extend([
+		    '+2:word=' + word2,
+		    '+2:word.isupper=%s' % word2.isupper(),
+		    '+2:postag=' + postag2,
+		    '+2:norm=' + norm2,
+		    '+2:cui=' + cui2,
+		    '+2:tui=' + tui2,
+		])
+    else:
+        features.append('EOS2')
 
-
-
-	return features'''
+    
+                
+    return features'''
+    
 
 import sentlex
+
 test_sents = load3("test")
-# test_sents = load2("test")[:100]
 #print train_sents
 #print "sent =" +str(len(train_sents))
 SWN = sentlex.SWN3Lexicon()
+
+
 
 def word2features(sent, i):
 	word = sent[i][0]
@@ -265,38 +264,68 @@ def word2features(sent, i):
 	else:
 		features.update({'EOS2':True})
 
-	
 	return features
-def getNum(label):
-	if(label == "B-EVENT"):
-		return 1
-	elif(label == "I-EVENT"):
-		return 2
-	else:
-	 return 0
+
 
 def sent2features(sent):
-	feature = [word2features(sent, i) for i in range(len(sent)) ]
-	
-	'''print "feature for sentence" + str(sent)
-	print
-	print "Feature"
-	print str(feature)'''
-	return feature
+    return [word2features(sent, i) for i in range(len(sent))]
 
 def sent2labels(sent):
 	#print sent
-	# return [label for token, postag, norm, cui, tui, label, start, end in sent]
-	return [label for token, postag, norm, cui, tui, label, start, end,  fileName, Type, Degree, Polarity, Modality, Aspect in sent]
-
+	#return [label for token, postag, norm, cui, tui, label, start, end in sent]
+	return [label for  token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]
 
 def sent2tokens(sent):
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
-	return [token for token, postag, norm, cui, tui, label, start, end , fileName, Type, Degree, Polarity, Modality, Aspect in sent]    
-
-# vec = DictVectorizer()
+    return [token for  token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]    
 
 
+#print sent2features(train_sents[0])[0]    
+
+
+print "Doing for test"
+
+predicted = []
+correct = []
+
+tagger = pycrfsuite.Tagger()
+#tagger.open('tempeval2016-eventNEG.crfsuite')
+tagger.open('tempeval2016-event.crfsuite')
+
+
+for sent in test_sents:
+	predicted.extend(tagger.tag(sent2features(sent)))
+	correct.extend(sent2labels(sent))
+
+predicted_eval = []
+correct_eval = []
+ind =-1
+'''for pred in predicted:
+	ind += 1
+	if(predicted[ind]=="I-EVENT"):
+		prev_ind= ind-1
+		while prev_ind>=0 and predicted[prev_ind]=="I-EVENT":
+			prev_ind -= 1
+		if prev_ind >=0 and predicted[prev_ind] == "B-EVENT":
+			predicted_eval.extend(predicted[ind])		
+			correct_eval.extend(correct[ind])
+		# do something
+	else:
+		predicted_eval.extend(predicted[ind])		
+		correct_eval.extend(correct[ind])
+'''
+
+
+
+f=open("PredictedTags.pkl", 'wb')
+pickle.dump(predicted, f)
+f.close()
+
+f=open("CorrectTags.pkl", 'wb')
+pickle.dump(correct, f)
+f.close()
+
+#partial match
 def eventEvaluate(cor,pred):
 	ind = -1
 	sysandgrnd = 0
@@ -305,12 +334,21 @@ def eventEvaluate(cor,pred):
 	for p in pred:
 		ind += 1
 		if(pred[ind]=="B-EVENT"):
+			# for the Inside event tag check whether the begin tag was correctly identified or not
+			# if(pred[ind]=="I-EVENT"):
+			# 	prev = ind -1
+			# 	while(prev>0 and pred[prev]=="I-EVENT"):
+			# 		prev -= 1
+			# 	if(prev>=0 and pred[prev]=="B-EVENT"):
+			# 		sys += 1
+			# 		if(cor[ind]==pred[ind]):
+			# 			sysandgrnd += 1
+			# else:
 			sys += 1
 			if(cor[ind]==pred[ind]):
 				sysandgrnd += 1
 		if(cor[ind]=="B-EVENT"):
 			grnd += 1
-
 	prec = sysandgrnd/float(sys)
 	rec = sysandgrnd/float(grnd)
 	fmes = 2 * prec * rec /(prec + rec)
@@ -319,6 +357,7 @@ def eventEvaluate(cor,pred):
 	print "Recall  = " +  str(rec)
 	print "Fmeasure  = " +  str(fmes)
 
+#exact match
 def exactEvaluate(cor,pred):
 	ind = -1
 	sysandgrnd = 0
@@ -353,48 +392,20 @@ def exactEvaluate(cor,pred):
 	print "Fmeasure  = " +  str(fmes)
 
 
-# load it again
-with open('my_dumped_SVMclassifierNEG.pkl', 'rb') as fid:
-	classifier_rbf = pickle.load(fid)
-	vec =  pickle.load(fid)
-	print "Test part"
-	test_data =[]
-	for s in test_sents:
-		test_data.extend(sent2features(s))
 
-	test_vectors = vec.transform(test_data)
-
-	test_labels = []
-	for s in test_sents:
-		test_labels.extend(sent2labels(s))
-
-	
-	prediction_rbf = classifier_rbf.predict(test_vectors)	
-	prediction_rbf = list(prediction_rbf)
-	predicted_labels = []
-	for num in  prediction_rbf:
-		if(num==1):
-			predicted_labels.append("B-EVENT")
-		elif(num==2):
-			predicted_labels.append("I-EVENT")
-		else:
-			predicted_labels.append("O")		
-
-	f=open("PredictedTagsEventSVM.pkl", 'wb')
-	pickle.dump(predicted_labels, f)
-	f.close()
-
-	f=open("CorrectTagsEventSVM.pkl", 'wb')
-	pickle.dump(test_labels, f)
-	f.close()
-
-	# print "Predict:" +str(predicted_labels)
-	# print "correct : " + str(test_labels)
-	# evaluate(test_labels ,predicted_labels)
-	# eventEvaluate(test_labels,predicted_labels)
-	exactEvaluate(test_labels,predicted_labels)
+eventEvaluate(correct,predicted)
+# exactEvaluate(correct,predicted)
 
 
 
 
+# example_sent = test_sents[4]
+# print(' '.join(sent2tokens(example_sent)))
 
+# #print("Predicted:", ' '.join(tagger.tag(sent2features(example_sent))))
+# #print("Correct:  ", ' '.join(sent2labels(example_sent)))
+# predicted = tagger.tag(sent2features(example_sent))
+# correct = sent2labels(example_sent)
+# print "\tToken\t\tPredicted\t\tCorrect"
+# for i in range(0,len(predicted)):
+# 	print "\t"+example_sent[i][0]+"\t\t" + predicted[i]+ "\t\t" + correct[i]
