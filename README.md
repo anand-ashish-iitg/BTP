@@ -4,7 +4,7 @@
 - MedTime
 - nltk
 - Sentlex
-- CRFSuite
+- [python-crfsuite](http://python-crfsuite.readthedocs.io/en/latest/#python-crfsuite)
 - Scikit learn
 
 
@@ -46,7 +46,7 @@
 
 		$ cd apache-ctakes-3.2.2
 
-- UMLS dictionary access in cTAKES requires LICENCE. To request a license and creat an account visit "https://uts.nlm.nih.gov/license.html".
+- UMLS dictionary access in cTAKES requires [UMLS Metathesaurus License](https://uts.nlm.nih.gov/license.html). To To process the files using cTAKES, create and account and request for the license.
 
 - Add the UMLS username and password to bin/runctakesCPE_train.sh and bin/runctakesCPE_test.sh by replacing UMLS_USERNAME and UMLS_PASSWORD present at the end of these files in the java command.
 
@@ -60,7 +60,7 @@
 
 		$./bin/runctakesCPE_test.sh
 
-- The output is generated in output/train and output/test
+- The output is generated in "output/train" and "output/test".
 
 ####Parsing cTAKES output####
 
@@ -68,7 +68,7 @@
 
 		$ cd CtakesProcessing
 
-- Copy the cTAKES generated output in the last step to folders Ctakesoutput/train and Ctakesoutput/test.
+- Copy the cTAKES generated output in the last step to folders "Ctakesoutput/train" and "Ctakesoutput/test".
 
 		$ cp  -r ../apache-ctakes-3.2.2/output/train Ctakesoutput/train
 		$ cp  -r ../apache-ctakes-3.2.2/output/test Ctakesoutput/test
@@ -81,7 +81,7 @@
 
 		$ java CtakesAttributes
 
-- This will generate parsed outputs in ctakesProcessed/train and ctakesProcessed/train.
+- This will generate parsed outputs in "ctakesProcessed/train" and "ctakesProcessed/train".
 
 
 ####Preprocessing the gold annotated and the raw data to get the tags required for ttaining and testing####
@@ -91,23 +91,23 @@
 		$ cd Python-CRF-SVM
 
 - Create folders and copy the necessary files
-	- *ctakesProcessed*: cTAKES processed output already generated earlier.
-	- *gold_annotated*: the annotated train and test data in corresponding train and test folders.
-	- *MedTime-output*: the output generated from MedTime that we have already obtained.
-	- *raw_data*: the raw text files in subdirectories train and test respectively.
+	- **ctakesProcessed**: cTAKES processed output already generated earlier.
+	- **gold_annotated**: the annotated train and test data in corresponding train and test folders.
+	- **MedTime-output**: the output generated from MedTime that we have already obtained.
+	- **raw_data**: the raw text files in subdirectories train and test respectively.
 
 - Create empty directories each with subfolders train and test.
-	- *MedTimeTemp-output*: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
-	- *DocTimedumpPickles*: for dump files required for DocTime relation identification.
-	- *dumpPickles*: for preprocessed data for Event Span detection.
-	- *SVMdumpPickles*: Used for preprocessed data for SVM Event attributes detection.
-	- *System-output*: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
-	- *TimedumpPickles*: for preprocessed data used by Time attributes detection.
-	- *TimeSpandumpPickles*: for preprocessed data used by Time Span detection.
+	- **MedTimeTemp-output**: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
+	- **DocTimedumpPickles**: for dump files required for DocTime relation identification.
+	- **dumpPickles**: for preprocessed data for Event Span detection.
+	- **SVMdumpPickles**: Used for preprocessed data for SVM Event attributes detection.
+	- **System-output**: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
+	- **TimedumpPickles**: for preprocessed data used by Time attributes detection.
+	- **TimeSpandumpPickles**: for preprocessed data used by Time Span detection.
 
 - Run the preproceesing files each to get the preprocessed information in the above created folders first with for test files with no argument passed and then with train passed as an argument to process training files.
 
-	For the test file:
+	**For the test file:**
 
 		$ python dumpTuples.py
 		$ python dumpTuplesSVM.py
@@ -115,7 +115,7 @@
 		$ python dumpTuplesDoctime.py
 		$ python dumpTuplesTimeSpan.py
 
-	For the training files:
+	**For the training files:**
 
 		$ python dumpTuples.py train
 		$ python dumpTuplesSVM.py train
