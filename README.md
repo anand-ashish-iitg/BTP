@@ -1,11 +1,12 @@
 # BTP #
 ###Dependencies###
-- cTAKES
-- MedTime
-- nltk
-- Sentlex
+- [cTAKES](https://ctakes.apache.org/)
+- [MedTime](http://www.sciencedirect.com/science/article/pii/S1532046413001135)
+- [nltk](http://www.nltk.org/)
+- [sentlex](https://github.com/bohana/sentlex)
 - [python-crfsuite](http://python-crfsuite.readthedocs.io/en/latest/#python-crfsuite)
-- Scikit learn
+- [sklearn](http://scikit-learn.org/stable/)
+- [pickle](https://docs.python.org/2/library/pickle.html#pickle-python-object-serialization)
 
 
 ##Preprocessing##
@@ -46,7 +47,7 @@
 
 		$ cd apache-ctakes-3.2.2
 
-- UMLS dictionary access in cTAKES requires [UMLS Metathesaurus License](https://uts.nlm.nih.gov/license.html). To To process the files using cTAKES, create and account and request for the license.
+- UMLS dictionary access in cTAKES requires [UMLS Metathesaurus License](https://uts.nlm.nih.gov/license.html). To process the files using cTAKES, create and account and request for the license.
 
 - Add the UMLS username and password to bin/runctakesCPE_train.sh and bin/runctakesCPE_test.sh by replacing UMLS_USERNAME and UMLS_PASSWORD present at the end of these files in the java command.
 
