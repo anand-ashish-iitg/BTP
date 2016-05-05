@@ -44,7 +44,7 @@
 
 - Move the the home directory of the project and change current directry to apache-ctakes-3.2.2
 
-	$ cd apache-ctakes-3.2.2
+		$ cd apache-ctakes-3.2.2
 
 - UMLS dictionary access in cTAKES requires LICENCE. To request a license and creat an account visit "https://uts.nlm.nih.gov/license.html".
 
@@ -54,11 +54,11 @@
 
 - Run for training files:
 
-	$./bin/runctakesCPE_train.sh
+		$./bin/runctakesCPE_train.sh
 
 - Run for testing files:
 
-	$./bin/runctakesCPE_test.sh
+		$./bin/runctakesCPE_test.sh
 
 - The output is generated in output/train and output/test
 
@@ -66,20 +66,20 @@
 
 - Move to the home directory and then change current directory to CtakesProcessing.
 
-	$ cd CtakesProcessing
+		$ cd CtakesProcessing
 
 - Copy the cTAKES generated output in the last step to folders Ctakesoutput/train and Ctakesoutput/test.
 
-	$ cp  -r ../apache-ctakes-3.2.2/output/train Ctakesoutput/train
-	$ cp  -r ../apache-ctakes-3.2.2/output/test Ctakesoutput/test
+		$ cp  -r ../apache-ctakes-3.2.2/output/train Ctakesoutput/train
+		$ cp  -r ../apache-ctakes-3.2.2/output/test Ctakesoutput/test
 
 - Compile the file CtakesAttributes.java
 
-	$ javac CtakesAttributes.java
+		$ javac CtakesAttributes.java
 
 - Execute the program in CtakesAttributes
 
-	$ java CtakesAttributes
+		$ java CtakesAttributes
 
 - This will generate parsed outputs in ctakesProcessed/train and ctakesProcessed/train.
 
@@ -88,7 +88,7 @@
 
 - Move to the home directory of the project and change the current directory to Python-CRF-SVM.
 
-	$ cd Python-CRF-SVM
+		$ cd Python-CRF-SVM
 
 - Create folders and copy the necessary files
 	- ctakesProcessed: cTAKES processed output already generated earlier.
@@ -109,19 +109,19 @@
 
 	For the test file:
 
-	$ python dumpTuples.py
-	$ python dumpTuplesSVM.py
-	$ python dumpTuplesTime.py
-	$ python dumpTuplesDoctime.py
-	$ python dumpTuplesTimeSpan.py
+		$ python dumpTuples.py
+		$ python dumpTuplesSVM.py
+		$ python dumpTuplesTime.py
+		$ python dumpTuplesDoctime.py
+		$ python dumpTuplesTimeSpan.py
 
 	For the training files:
 
-	$ python dumpTuples.py train
-	$ python dumpTuplesSVM.py train
-	$ python dumpTuplesTime.py train
-	$ python dumpTuplesDoctime.py train
-	$ python dumpTuplesTimeSpan.py train
+		$ python dumpTuples.py train
+		$ python dumpTuplesSVM.py train
+		$ python dumpTuplesTime.py train
+		$ python dumpTuplesDoctime.py train
+		$ python dumpTuplesTimeSpan.py train
 
 - This completes the preprocessing part of our project.
 
@@ -130,10 +130,10 @@
 
 #####Timex Span Identification:#####
 
-	$ python trainCRF-TimexSpan.py
-	$ python testCRF-TimexSpan.py
-	$ python trainSVM-TimexSpan.py
-	$ python testSVM-TimexSpan.py
+		$ python trainCRF-TimexSpan.py
+		$ python testCRF-TimexSpan.py
+		$ python trainSVM-TimexSpan.py
+		$ python testSVM-TimexSpan.py
 
 #####Timex Attribute Classification:#####
 The Timex Span detection using CRF is used in attribute classification. So, run TimexSpan identification using CRF first and then attribute detection.
