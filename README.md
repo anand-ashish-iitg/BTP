@@ -85,7 +85,7 @@
 - This will generate parsed outputs in "ctakesProcessed/train" and "ctakesProcessed/train".
 
 
-####Preprocessing the gold annotated and the raw data to get the tags required for ttaining and testing####
+####Preprocessing the gold annotated and the raw data to get the tags required for training and testing####
 
 - Move to the home directory of the project and change the current directory to Python-CRF-SVM.
 
@@ -127,59 +127,67 @@
 - This completes the preprocessing part of our project.
 
 
-####Training and Testing using CRF and SVM####
+##Training and Testing using CRF and SVM##
 
-#####Timex Span Identification:#####
+###Timex Span Identification:###
+
+####CRF for Timex Span detection####
 
 	$ python trainCRF-TimexSpan.py
 	$ python testCRF-TimexSpan.py
+
+####SVM for Timex Span detection####
+
 	$ python trainSVM-TimexSpan.py
 	$ python testSVM-TimexSpan.py
 
-#####Timex Attribute Classification:#####
+###Timex Attribute Classification:###
 The Timex Span detection using CRF is used in attribute classification. So, run TimexSpan identification using CRF first and then attribute detection.
 
-######Type:######
+####Type:####
 
 	$ python trainSVM-TimexType.py
 	$ python testSVM-TimexType.py
 
-#####Event Span Identification:#####
+###Event Span Identification:###
 
-######Train CRF for Event Span detection######
+####CRF for Event Span detection####
 
 	$ python trainCRF-EventSpan.py
 	$ python testCRF-EventSpan.py
+
+####SVM for Event Span detection####
+
 	$ python trainSVM-EventSpan.py
 	$ python testSVM-EventSpan.py
 
 
-#####Event Attribute Classification:#####
+###Event Attribute Classification:###
 
 The Event Span detection using CRF is used in attribute classification. So, run EventSpan identification using CRF first and then attribute detection.
 
-######Type:######
+####Type:####
 
 	$ python trainSVM-EventType.py
 	$ python testSVM-EventType.py	
 
-######Modality:######
+####Modality:####
 
 	$ python trainSVM-Modality.py
 	$ python testSVM-Modality.py
 
-######Polarity:######
+####Polarity:####
 
 	$ python trainSVM-Polarity.py
 	$ python testSVM-Polarity.py
 
-######Degree:######
+####Degree:####
 
 	$ python trainSVM-Degree.py
 	$ python testSVM-Degree.py
 
 
-#####Document Relation Identification:#####
+###Document Relation Identification:###
 
 Event Span identification and Timex span identification to be performed before this step.
 
