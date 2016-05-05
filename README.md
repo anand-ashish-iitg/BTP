@@ -24,11 +24,11 @@
 
 - Change current directry to MedTime-1.0.2
 
-	$ cd MedTime-1.0.2
+		$ cd MedTime-1.0.2
 
 - Run the following java command to open Collection processing engine for MedTime.
 
-	$ java -Xms512M -Xmx2000M -cp resources:desc:descsrc:medtaggerdescsrc:MedTime-1.0.2.jar org.apache.uima.tools.cpm.CpmFrame
+		$ java -Xms512M -Xmx2000M -cp resources:desc:descsrc:medtaggerdescsrc:MedTime-1.0.2.jar org.apache.uima.tools.cpm.CpmFrame
 
 - After the window open load the CPE descriptor from the File menu.
 	File => Open CPE descriptor => Select the File MedTime-1.0.2/desc/medtimedesc/collection_processing_engine/MedTimeCPE.xml
@@ -142,6 +142,7 @@
 	$ python testSVM-TimexSpan.py
 
 ###Timex Attribute Classification:###
+
 The Timex Span detection using CRF is used in attribute classification. So, run TimexSpan identification using CRF first and then attribute detection.
 
 ####Type:####
