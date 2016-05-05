@@ -22,9 +22,11 @@ Steps for preprocessing:
 Running MedTime
 
 - Change current directry to MedTime-1.0.2
+
 	$ cd MedTime-1.0.2
 
 - Run the following java command to open Collection processing engine for MedTime.
+
 	$ java -Xms512M -Xmx2000M -cp resources:desc:descsrc:medtaggerdescsrc:MedTime-1.0.2.jar org.apache.uima.tools.cpm.CpmFrame
 
 - After the window open load the CPE descriptor from the File menu.
@@ -41,6 +43,7 @@ Running MedTime
 Using cTAKES
 
 - Move the the home directory of the project and change current directry to apache-ctakes-3.2.2
+
 	$ cd apache-ctakes-3.2.2
 
 - UMLS dictionary access in cTAKES requires LICENCE. To request a license and creat an account visit "https://uts.nlm.nih.gov/license.html".
@@ -50,9 +53,11 @@ Using cTAKES
 - Copy the training and testing files in folders "input/train" and "input/test" respectively.
 
 - Run for training files:
+
 	$./bin/runctakesCPE_train.sh
 
 - Run for testing files:
+
 	$./bin/runctakesCPE_test.sh
 
 - The output is generated in output/train and output/test
@@ -60,16 +65,20 @@ Using cTAKES
 Parsing cTAKES output
 
 - Move to the home directory and then change current directory to CtakesProcessing.
+
 	$ cd CtakesProcessing
 
 - Copy the cTAKES generated output in the last step to folders Ctakesoutput/train and Ctakesoutput/test.
+
 	$ cp  -r ../apache-ctakes-3.2.2/output/train Ctakesoutput/train
 	$ cp  -r ../apache-ctakes-3.2.2/output/test Ctakesoutput/test
 
 - Compile the file CtakesAttributes.java
+
 	$ javac CtakesAttributes.java
 
 - Execute the program in CtakesAttributes
+
 	$ java CtakesAttributes
 
 - This will generate parsed outputs in ctakesProcessed/train and ctakesProcessed/train.
@@ -78,6 +87,7 @@ Parsing cTAKES output
 Preprocessing the gold annotated and the raw data to get the tags required for ttaining and testing
 
 - Move to the home directory of the project and change the current directory to Python-CRF-SVM.
+
 	$ cd Python-CRF-SVM
 
 - Create folders and copy the necessary files
@@ -89,7 +99,7 @@ Preprocessing the gold annotated and the raw data to get the tags required for t
 - Create empty directories each with subfolders train and test.
 	* DocTimedumpPickles: for dump files required for DocTime relation identification.
 	* dumpPickles: for preprocessed data for Event Span detection.
-        * MedTimeTemp-output: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
+     	* MedTimeTemp-output: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
 	* SVMdumpPickles: Used for preprocessed data for SVM Event attributes detection.
 	* System-output: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
 	* TimedumpPickles: for preprocessed data used by Time attributes detection.
@@ -98,6 +108,7 @@ Preprocessing the gold annotated and the raw data to get the tags required for t
 - Run the preproceesing files each to get the preprocessed information in the above created folders first with for test files with no argument passed and then with train passed as an argument to process training files.
 
 	For the test file:
+
 	$ python  dumpTuples.py
 	$ python  dumpTuplesSVM.py
 	$ python  dumpTuplesTime.py
@@ -105,6 +116,7 @@ Preprocessing the gold annotated and the raw data to get the tags required for t
 	$ python  dumpTuplesTimeSpan.py
 
 	For the training files:
+
 	$ python  dumpTuples.py train
 	$ python  dumpTuplesSVM.py train
 	$ python  dumpTuplesTime.py train
@@ -129,6 +141,7 @@ Timex Attribute Classification:
 The Timex Span detection using CRF is used in attribute classification. So, run TimexSpan identification using CRF first and then attribute detection.
 
 Type:
+
 	$ python trainSVM-TimexType.py
 	$ python testSVM-TimexType.py
 
@@ -144,18 +157,22 @@ Event Attribute Classification:
 The Event Span detection using CRF is used in attribute classification. So, run EventSpan identification using CRF first and then attribute detection.
 
 Type:
+
 	$ python trainSVM-EventType.py
 	$ python testSVM-EventType.py	
 
 Modality:
+
 	$ python trainSVM-Modality.py
 	$ python testSVM-Modality.py
 
 Polarity:
+
 	$ python trainSVM-Polarity.py
 	$ python testSVM-Polarity.py
 
 Degree:
+
 	$ python trainSVM-Degree.py
 	$ python testSVM-Degree.py
 
@@ -163,5 +180,6 @@ Degree:
 Document Relation Identification:
 
 Event Span identification and Timex span identification to be performed before this step.
+
 	$ python trainCRF-DoctimeRelation.py
 	$ python testCRF-DoctimeRelation.py
