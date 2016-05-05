@@ -91,19 +91,19 @@
 		$ cd Python-CRF-SVM
 
 - Create folders and copy the necessary files
-	- ctakesProcessed: cTAKES processed output already generated earlier.
-	- gold_annotated: the annotated train and test data in corresponding train and test folders.
-	- MedTime-output: the output generated from MedTime that we have already obtained.
-	- raw_data: the raw text files in subdirectories train and test respectively.
+	- *ctakesProcessed*: cTAKES processed output already generated earlier.
+	- *gold_annotated*: the annotated train and test data in corresponding train and test folders.
+	- *MedTime-output*: the output generated from MedTime that we have already obtained.
+	- *raw_data*: the raw text files in subdirectories train and test respectively.
 
 - Create empty directories each with subfolders train and test.
-	- MedTimeTemp-output: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
-	- DocTimedumpPickles: for dump files required for DocTime relation identification.
-	- dumpPickles: for preprocessed data for Event Span detection.
-	- SVMdumpPickles: Used for preprocessed data for SVM Event attributes detection.
-	- System-output: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
-	- TimedumpPickles: for preprocessed data used by Time attributes detection.
-	- TimeSpandumpPickles: for preprocessed data used by Time Span detection.
+	- *MedTimeTemp-output*: Used for converting the MedTime output from TimeML format to Anafora format for preprocessing.
+	- *DocTimedumpPickles*: for dump files required for DocTime relation identification.
+	- *dumpPickles*: for preprocessed data for Event Span detection.
+	- *SVMdumpPickles*: Used for preprocessed data for SVM Event attributes detection.
+	- *System-output*: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
+	- *TimedumpPickles*: for preprocessed data used by Time attributes detection.
+	- *TimeSpandumpPickles*: for preprocessed data used by Time Span detection.
 
 - Run the preproceesing files each to get the preprocessed information in the above created folders first with for test files with no argument passed and then with train passed as an argument to process training files.
 
@@ -130,10 +130,10 @@
 
 #####Timex Span Identification:#####
 
-		$ python trainCRF-TimexSpan.py
-		$ python testCRF-TimexSpan.py
-		$ python trainSVM-TimexSpan.py
-		$ python testSVM-TimexSpan.py
+	$ python trainCRF-TimexSpan.py
+	$ python testCRF-TimexSpan.py
+	$ python trainSVM-TimexSpan.py
+	$ python testSVM-TimexSpan.py
 
 #####Timex Attribute Classification:#####
 The Timex Span detection using CRF is used in attribute classification. So, run TimexSpan identification using CRF first and then attribute detection.
