@@ -39,7 +39,7 @@
 
 - Now, click on Run button on the bottom centre of the window turn by turn for test and the train data.
 
-- The have the TIMEML annotated date with the temporal expressions and their type which is to be used as feature in our Hybrid model for Temporal Span reasoning.
+- Then, we have the TIMEML annotated date with the temporal expressions and their type which is to be used as feature in our Hybrid model for Temporal Span reasoning.
 
 
 ####Using cTAKES####
@@ -50,7 +50,7 @@
 
 		$ cd apache-ctakes-3.2.2
 
-- UMLS dictionary access in cTAKES requires [UMLS Metathesaurus License](https://uts.nlm.nih.gov/license.html). To process the files using cTAKES, create and account and request for the license.
+- UMLS dictionary access in cTAKES requires [UMLS Metathesaurus License](https://uts.nlm.nih.gov/license.html). To process the files using cTAKES, create an account and request for the license.
 
 - Add the UMLS username and password to bin/runctakesCPE_train.sh and bin/runctakesCPE_test.sh by replacing UMLS_USERNAME and UMLS_PASSWORD present at the end of these files in the java command.
 
@@ -105,7 +105,7 @@
 	- **DocTimedumpPickles**: for dump files required for DocTime relation identification.
 	- **dumpPickles**: for preprocessed data for Event Span detection.
 	- **SVMdumpPickles**: Used for preprocessed data for SVM Event attributes detection.
-	- **System-output**: Used to generate the finall processed Anafora format files with the identified events, temporal expressions and 		relations.
+	- **System-output**: Used to generate the final processed Anafora format files with the identified events, temporal expressions and relations.
 	- **TimedumpPickles**: for preprocessed data used by Time attributes detection.
 	- **TimeSpandumpPickles**: for preprocessed data used by Time Span detection.
 

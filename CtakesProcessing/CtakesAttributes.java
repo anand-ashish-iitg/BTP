@@ -10,8 +10,14 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 public class CtakesAttributes {
-	public static void doPreprocessing(String inputFileName,boolean istrain){
+	
+  public static void doPreprocessing(String inputFileName,boolean istrain){
+    /*does the preprocessing of the cTAKES generated output to extract the cui, tui and normalized values.
 
+      Args:
+        inputFileName: name of the file to be processes
+        istrain: whether its training or testing data
+    */
     try {
        //String inputFileName = "Ctakesoutput/1.xml";
        Map<String, String> cuidMap = new HashMap<String, String>();
@@ -40,6 +46,7 @@ public class CtakesAttributes {
        //System.out.print(fileContent);
        NodeList ret = doc.getElementsByTagName("org.apache.ctakes.typesystem.type.syntax.WordToken");
        NodeList[] nodeList = new NodeList[7];
+       // get all instances of concept mention
        nodeList[0] = doc.getElementsByTagName("org.apache.ctakes.typesystem.type.textsem.AnatomicalSiteMention");
        nodeList[1] = doc.getElementsByTagName("org.apache.ctakes.typesystem.type.textsem.DiseaseDisorderMention");
        nodeList[2] = doc.getElementsByTagName("org.apache.ctakes.typesystem.type.textsem.LabMention");
@@ -52,31 +59,31 @@ public class CtakesAttributes {
        NodeList umlsConcept = doc.getElementsByTagName("org.apache.ctakes.typesystem.type.refsem.UmlsConcept");
        for(int  i = 0;i<fsArray.getLength();i++ ){
     	   Node nNode = fsArray.item(i);
-		   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	             Element eElement = (Element) nNode;
-	             if(nNode.hasChildNodes()){
-	            	 String umlsid = eElement.getElementsByTagName("i").item(0).getTextContent(); 
-	            	 //System.out.println("Upmls id u = " + umlsid);
-		             fsArrayMap.put(eElement.getAttribute("_id"),umlsid);
-		             //System.out.println("fsarrayid is = " +eElement.getAttribute("_id"));
-		             //System.out.println("pehle fsarray  = "+ fsArrayMap.get(eElement.getAttribute("_id")));
-	             }	            
-		   }
+  		   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+  	             Element eElement = (Element) nNode;
+  	             if(nNode.hasChildNodes()){
+  	            	 String umlsid = eElement.getElementsByTagName("i").item(0).getTextContent(); 
+  	            	 //System.out.println("Upmls id u = " + umlsid);
+  		             fsArrayMap.put(eElement.getAttribute("_id"),umlsid);
+  		             //System.out.println("fsarrayid is = " +eElement.getAttribute("_id"));
+  		             //System.out.println("pehle fsarray  = "+ fsArrayMap.get(eElement.getAttribute("_id")));
+  	             }	            
+  		   }
 
        }
        
        for(int  i = 0;i<umlsConcept.getLength();i++ ){
     	   Node nNode = umlsConcept.item(i);
-		   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	             Element eElement = (Element) nNode;
-	            	 String cui = eElement.getAttribute("cui");
-	            	 String tui = eElement.getAttribute("tui");
-	            	 //System.out.println("cui =  " + cui + " tui = " + tui + " id = " + eElement.getAttribute("_id"));
-		             umlsCuiMap.put(eElement.getAttribute("_id"),cui);
-		             umlsTuiMap.put(eElement.getAttribute("_id"),tui);
-	             	 //System.out.println(umlsCuiMap.get(eElement.getAttribute("_id")));
+  		   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+  	             Element eElement = (Element) nNode;
+  	            	 String cui = eElement.getAttribute("cui");
+  	            	 String tui = eElement.getAttribute("tui");
+  	            	 //System.out.println("cui =  " + cui + " tui = " + tui + " id = " + eElement.getAttribute("_id"));
+  		             umlsCuiMap.put(eElement.getAttribute("_id"),cui);
+  		             umlsTuiMap.put(eElement.getAttribute("_id"),tui);
+  	             	 //System.out.println(umlsCuiMap.get(eElement.getAttribute("_id")));
 
-		   }
+  		   }
 
        }
        
