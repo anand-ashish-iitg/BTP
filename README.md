@@ -21,6 +21,7 @@
 ###Steps for preprocessing:###
 
 ####Running MedTime####
+- Download all the jar files needed to run MedTime from the latest version of MedTime available into the lib folder from [ohnlp projects](https://sourceforge.net/projects/ohnlp/files/MedTime/) 
 
 - Change current directry to MedTime-1.0.2
 
@@ -42,6 +43,8 @@
 
 
 ####Using cTAKES####
+
+- Download all the jar file needed to run cTAKES from [cTAKES website](http://ctakes.apache.org/downloads.cgi) into the lib folder.
 
 - Move the the home directory of the project and change current directry to apache-ctakes-3.2.2
 
