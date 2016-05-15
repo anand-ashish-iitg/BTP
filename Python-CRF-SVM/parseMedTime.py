@@ -3,6 +3,14 @@ import xml.dom.minidom
 import re
 
 def getMedSpans(filename,trainOrtest="test"):
+   """parses the anafora files to get the properties for entities from MedTime processed data
+
+    Args:
+        filename: the file to be parsed
+        trainOrtest: whether its training data or test data
+    Returns:
+        the properties of all the temporal expressions 
+    """
    # Open XML document using minidom parser
    try:
       medtimeRoot = "MedTime-output/"+trainOrtest+"/"
@@ -10,6 +18,8 @@ def getMedSpans(filename,trainOrtest="test"):
       startStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data>\n\n<schema path=\"./\" protocol=\"file\">temporal-schema.xml</schema>\n\n<annotations>\n"
       endStr = "\n</annotations>\n</data>"
       text = ""  
+
+      # form xml files from the TIMEML formatted file
       with open(medtimeRoot+ filename + ".ann","rb") as fil:
          text = fil.read()
       with open(medtimeTempRoot + filename + ".xml","wb") as fil:

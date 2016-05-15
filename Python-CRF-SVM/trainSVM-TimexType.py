@@ -17,6 +17,13 @@ train_sents = load6("train")
 SWN = sentlex.SWN3Lexicon()
 
 def getIsSpell(word):
+	"""Checks whether the word is a spelling of common numbers
+
+    Args:
+        word: the word to be checked for spelling of number
+    Returns:
+        True if the word is spelling of common numberr
+    """
 	units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
         "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
@@ -28,6 +35,13 @@ def getIsSpell(word):
 		return False
 
 def getIsQuant(word):
+	"""Checks whether the word is common quantitative descriptor
+
+    Args:
+        word: the word to be checkd for quantitative descriptor
+    Returns:
+        True if the word is spelling of common  quantitative descriptor
+    """
 	quant = [
 		"once", "twice","thrice","first","second","third","fourth","fifth","sixth","single","multiple",	
 		]		
@@ -37,6 +51,12 @@ def getIsQuant(word):
 		return False
 
 def getIsPrePost(word):
+	"""Checks whether the word is common pre-post expression
+    Args:
+        word: the word to be checkd for common pre-post expression
+    Returns:
+        True if the word is spelling of common pre-post expression
+    """
 	word = word.lower()
 	if("pre" in word):
 		return True
@@ -53,6 +73,13 @@ def getIsPrePost(word):
 	return False
 
 def word2features(sent, i):
+	"""get the feautes corresponding to a word in a sentence at a particular position
+    Args:
+        sent: the sentence whose word is to be considered
+        i: the position of the word in the sentence
+    Returns:
+        the dictionary containing the features for the classifier
+    """
 	word = sent[i][0]
 	postag = sent[i][1]
 	medlabel = sent[i][6]
@@ -311,6 +338,14 @@ def word2features(sent, i):
 	return features
 
 def getNum(label):
+	"""get a unique number corresponding to each label
+
+    Args:
+        label: the label correposnding to which a number is to be alloted
+    Returns:
+        a unique number corresponding to each label
+
+    """
 	if(label == "PREPOSTEXP"):
 		return 0
 	elif(label == "TIME"):
@@ -325,6 +360,13 @@ def getNum(label):
 	 return 5
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """
 	feature = [word2features(sent, i) for i in range(len(sent)) ]
 	
 	'''print "feature for sentence" + str(sent)
@@ -334,12 +376,28 @@ def sent2features(sent):
 	return feature
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	# return [getNum(label) for token, postag, norm, cui, tui, label, start, end in sent]
 	return [getNum(Class) for token, postag, label, start, end, fileName, medlabel, Class, MedClass  in sent]
 
 
 def sent2tokens(sent):
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
 	return [token for token, postag, label, start, end, fileName, medlabel, Class, MedClass in sent]    
 

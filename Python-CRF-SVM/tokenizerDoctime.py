@@ -10,6 +10,7 @@ import pickle
 
 def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
     try:
+        # get the filename that are present        
         filePath1 ="gold_annotated/" + trainOrTest +"/"+ fileName +"/" + fileName + ".Temporal-Relation.gold.completed.xml"
         filePath2 ="gold_annotated/" + trainOrTest +"/"+ fileName +"/" + fileName + ".Temporal-Entity.gold.completed.xml"
         filePath = ""
@@ -27,6 +28,7 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
             cuiDict = {}
             tuiDict = {}
 
+            # process the cTakes processed date to form dictionary to get the normalized value
             with open("ctakesProcessed/" + trainOrTest+"/" + fileName + ".xml-normalized","r") as fil:
                 for line in fil:
                     tok = line.split(',')
@@ -34,6 +36,7 @@ def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
                         normalizedDict[tok[0]] = tok[1]
 
 
+            # process the cTakes processed date to form dictionary to get the CUI
             with open("ctakesProcessed/" + trainOrTest+"/" + fileName + ".xml-cui","r") as fil:
                 for line in fil:
                     tok = line.split(',')

@@ -3,6 +3,13 @@ import xml.dom.minidom
 import re
 
 def getSpans(filename):
+   """parses the anafora files to get the properties for entities from gold annotated data
+
+    Args:
+        filename: the file to be parsed
+    Returns:
+        the spans and properties of all the tokens 
+    """
    # Open XML document using minidom parser
    try:
       DOMTree = xml.dom.minidom.parse(filename)
@@ -12,7 +19,7 @@ def getSpans(filename):
 
       entities = annotations.getElementsByTagName("entity")
       spans = []
-      # Print detail of each movie.
+      # get properties of each entity.
       for entity in entities:
          type = entity.getElementsByTagName('type')[0]
          #print "Type: %s" % type.childNodes[0].data   

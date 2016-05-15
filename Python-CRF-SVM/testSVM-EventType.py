@@ -26,6 +26,13 @@ global wordCnt
 
 wordCnt = -1
 def word2features(sent, i):
+	"""Checks whether the word is a spelling of common numbers
+
+    Args:
+        word: the word to be checked for spelling of number
+    Returns:
+        True if the word is spelling of common numberr
+    """
 	global wordCnt 
 	wordCnt += 1
 	word = sent[i][0]
@@ -196,6 +203,14 @@ def word2features(sent, i):
 
 
 def getNum(label):
+	"""get a unique number corresponding to each label
+
+    Args:
+        label: the label correposnding to which a number is to be alloted
+    Returns:
+        a unique number corresponding to each label
+
+    """
 	if(label == "ASPECTUAL"):
 		return -1
 	elif(label == "EVIDENTIAL"):
@@ -204,6 +219,13 @@ def getNum(label):
 	 return 0
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """
 	feature = [word2features(sent, i) for i in range(len(sent)) ]
 	
 	'''print "feature for sentence" + str(sent)
@@ -213,12 +235,28 @@ def sent2features(sent):
 	return feature
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	# return [label for token, postag, norm, cui, tui, label, start, end in sent]
 	return [Type for token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]
 
 
 def sent2tokens(sent):
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
 	return [token for token, postag, norm, cui, tui, label, start, end , fileName, Type, Degree, Polarity, Modality, Aspect in sent]    
 
@@ -259,6 +297,13 @@ def sent2tokens(sent):
 # 	# print "Accuracy = " + str(acc)
 
 def eventEvaluate(cor,pred):
+	"""Evaluates using partial matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	f=open("PredictedTags.pkl", 'rb')
 	predictedEvent = pickle.load(f)
 	f.close()
@@ -308,6 +353,13 @@ def eventEvaluate(cor,pred):
 
 	#exact match
 def exactEvaluate(cor,pred):
+	"""Evaluates using exact matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	f=open("PredictedTags.pkl", 'rb')
 	predictedEvent = pickle.load(f)
 	f.close()

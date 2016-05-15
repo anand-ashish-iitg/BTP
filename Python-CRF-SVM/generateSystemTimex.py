@@ -13,7 +13,7 @@ import sentlex
 import operator
 
 test_sents = load6("test")
-
+# extract all the dumped attributes and tags
 f=open("PredictedTagsTimexSpan.pkl", 'rb')
 Timexpredicted  = pickle.load(f)
 f.close()

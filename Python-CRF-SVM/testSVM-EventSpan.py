@@ -1,4 +1,4 @@
-import pickle
+ import pickle
 from sklearn.feature_extraction import DictVectorizer
 from itertools import chain
 import nltk
@@ -118,6 +118,13 @@ test_sents = load3("test")
 SWN = sentlex.SWN3Lexicon()
 
 def word2features(sent, i):
+	"""get the feautes corresponding to a word in a sentence at a particular position
+    Args:
+        sent: the sentence whose word is to be considered
+        i: the position of the word in the sentence
+    Returns:
+        the dictionary containing the features for the classifier
+    """
 	word = sent[i][0]
 	postag = sent[i][1]
 	norm = sent[i][2]
@@ -267,7 +274,16 @@ def word2features(sent, i):
 
 	
 	return features
+
 def getNum(label):
+	"""get a unique number corresponding to each label
+
+    Args:
+        label: the label correposnding to which a number is to be alloted
+    Returns:
+        a unique number corresponding to each label
+
+    """
 	if(label == "B-EVENT"):
 		return 1
 	elif(label == "I-EVENT"):
@@ -276,6 +292,13 @@ def getNum(label):
 	 return 0
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """
 	feature = [word2features(sent, i) for i in range(len(sent)) ]
 	
 	'''print "feature for sentence" + str(sent)
@@ -285,12 +308,28 @@ def sent2features(sent):
 	return feature
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	# return [label for token, postag, norm, cui, tui, label, start, end in sent]
 	return [label for token, postag, norm, cui, tui, label, start, end,  fileName, Type, Degree, Polarity, Modality, Aspect in sent]
 
 
 def sent2tokens(sent):
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
 	return [token for token, postag, norm, cui, tui, label, start, end , fileName, Type, Degree, Polarity, Modality, Aspect in sent]    
 
@@ -298,6 +337,13 @@ def sent2tokens(sent):
 
 
 def eventEvaluate(cor,pred):
+	"""Evaluates using partial matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	ind = -1
 	sysandgrnd = 0
 	sys = 0
@@ -320,6 +366,13 @@ def eventEvaluate(cor,pred):
 	print "Fmeasure  = " +  str(fmes)
 
 def exactEvaluate(cor,pred):
+	"""Evaluates using exact matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	ind = -1
 	sysandgrnd = 0
 	sys = 0

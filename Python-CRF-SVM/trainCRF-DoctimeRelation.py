@@ -15,6 +15,13 @@ train_sents = load4("train")
 SWN = sentlex.SWN3Lexicon()
 wordnet_lemmatizer = WordNetLemmatizer()
 def getTense(pos):
+	"""check the tense given the POS tag
+
+    Args:
+        pos: the POS tag for the word from which the tense is to be extracted
+    Returns:
+        the tense of the word given the POS tag
+    """
 	if(pos == "MD"):
 		return "FUTURE"
 	elif(pos in ["VBD", "VBN"]):
@@ -23,6 +30,13 @@ def getTense(pos):
 		return "PRESENT"  
 
 def get_wordnet_pos(treebank_tag):
+	"""get the wordnet POS tag given tree bank POS tag
+
+    Args:
+        treebank_tag: the wordnet POS tag 
+    Returns:
+        the treebank POS tag 
+    """
 	if treebank_tag.startswith('J'):
 		return wordnet.ADJ
 	elif treebank_tag.startswith('V'):
@@ -35,6 +49,13 @@ def get_wordnet_pos(treebank_tag):
 		return wordnet.ADJ_SAT		  
 
 def word2features(sent, i):
+	"""get the feautes corresponding to a word in a sentence at a particular position
+    Args:
+        sent: the sentence whose word is to be considered
+        i: the position of the word in the sentence
+    Returns:
+        the dictionary containing the features for the classifier
+    """
 	word = sent[i][0]
 	postag = sent[i][1]
 	norm = sent[i][2]
@@ -499,14 +520,37 @@ def word2features(sent, i):
 	return features
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """	
     return [word2features(sent, i) for i in range(len(sent))]
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	#return [label for token, postag, norm, cui, tui, label, start, end in sent]
 	return [Doctime for  token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect, Doctime in sent]
 
 def sent2tokens(sent):
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
     return [token for  token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect, Doctime in sent]    
 

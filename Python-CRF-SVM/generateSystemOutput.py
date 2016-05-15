@@ -14,6 +14,7 @@ import operator
 
 test_sents = load3("test")
 
+# extract all the dumped attributes and tags
 f=open("PredictedTags.pkl", 'rb')
 Eventpredicted  = pickle.load(f)
 f.close()

@@ -10,6 +10,13 @@ from loadTuples import *
 
 
 def getIsSpell(word):
+	"""Checks whether the word is a spelling of common numbers
+
+    Args:
+        word: the word to be checked for spelling of number
+    Returns:
+        True if the word is spelling of common numberr
+    """
 	units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
         "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
@@ -21,6 +28,13 @@ def getIsSpell(word):
 		return False
 
 def getIsQuant(word):
+	"""Checks whether the word is common quantitative descriptor
+
+    Args:
+        word: the word to be checkd for quantitative descriptor
+    Returns:
+        True if the word is spelling of common  quantitative descriptor
+    """
 	quant = [
 		"once", "twice","thrice","first","second","third","fourth","fifth","sixth","single","multiple",	
 		]		
@@ -30,6 +44,12 @@ def getIsQuant(word):
 		return False
 
 def getIsPrePost(word):
+	"""Checks whether the word is common pre-post expression
+    Args:
+        word: the word to be checkd for common pre-post expression
+    Returns:
+        True if the word is spelling of common pre-post expression
+    """
 	word = word.lower()
 	if("pre" in word):
 		return True
@@ -54,6 +74,13 @@ train_sents = load6("train")
 SWN = sentlex.SWN3Lexicon()
 
 def word2features(sent, i):
+	"""get the feautes corresponding to a word in a sentence at a particular position
+    Args:
+        sent: the sentence whose word is to be considered
+        i: the position of the word in the sentence
+    Returns:
+        the dictionary containing the features for the classifier
+    """
 	word = sent[i][0]
 	postag = sent[i][1]
 	medlabel = sent[i][6]
@@ -290,14 +317,37 @@ def word2features(sent, i):
 
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """
     return [word2features(sent, i) for i in range(len(sent))]
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	#return [label for token, postag, norm, cui, tui, label, start, end in sent]
 	return [label for token, postag, label, start, end, fileName, medlabel, Class, Medclass in sent]
 
 def sent2tokens(sent):
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
     #return [token for token, postag, norm, cui, tui, label, start, end  in sent]    
     return [token for token, postag, label, start, end, fileName, medlabel, Class, Medclass in sent]
 #print sent2features(train_sents[0])[0]    

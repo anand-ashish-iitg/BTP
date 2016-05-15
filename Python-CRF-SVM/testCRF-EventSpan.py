@@ -117,6 +117,16 @@ SWN = sentlex.SWN3Lexicon()
 
 
 def word2features(sent, i):
+
+	"""get the feautes corresponding to a word in a sentence at a particular position
+    Args:
+        sent: the sentence whose word is to be considered
+        i: the position of the word in the sentence
+    Returns:
+        the dictionary containing the features for the classifier
+    """
+
+    # features for current word    
 	word = sent[i][0]
 	postag = sent[i][1]
 	norm = sent[i][2]
@@ -146,6 +156,7 @@ def word2features(sent, i):
 		'Pol':	Pol,	
 	}
 
+    # features for curpos - 1
 	if(i > 0):
 		word1 = sent[i-1][0]
 		(pos1,neg1) = (0,0)
@@ -179,7 +190,7 @@ def word2features(sent, i):
 
 
 
-
+    # features for curpos + 1
 	if i < len(sent)-1:
 		word1 = sent[i+1][0]		
 		(pos1,neg1) = (0,0)
@@ -208,6 +219,7 @@ def word2features(sent, i):
 	else:
 		features.update({'EOS':True})
 
+    # features for curpos - 2
 	if i > 1:
 		word2 = sent[i-2][0]
 		(pos2,neg2) = (0,0)
@@ -236,6 +248,7 @@ def word2features(sent, i):
 	else:
 		features.update({'BOS2':True})
 
+    # features for curpos + 2
 	if i < len(sent)-2:
 		word2 = sent[i+2][0]
 		(pos2,neg2) = (0,0)
@@ -268,14 +281,37 @@ def word2features(sent, i):
 
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """
     return [word2features(sent, i) for i in range(len(sent))]
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	#return [label for token, postag, norm, cui, tui, label, start, end in sent]
 	return [label for  token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]
 
 def sent2tokens(sent):
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
     return [token for  token, postag, norm, cui, tui, label, start, end, fileName, Type, Degree, Polarity, Modality, Aspect in sent]    
 
@@ -327,6 +363,13 @@ f.close()
 
 #partial match
 def eventEvaluate(cor,pred):
+	"""Evaluates using partial matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	ind = -1
 	sysandgrnd = 0
 	sys = 0
@@ -359,6 +402,13 @@ def eventEvaluate(cor,pred):
 
 #exact match
 def exactEvaluate(cor,pred):
+	"""Evaluates using exact matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	ind = -1
 	sysandgrnd = 0
 	sys = 0

@@ -11,6 +11,7 @@ import pickle
 
 def getTuples(fileName, pickleFile, trainOrTest = "train", _len=len):
     try:
+        # get the filename that are present
         filePath1 ="gold_annotated/" + trainOrTest +"/"+ fileName +"/" + fileName + ".Temporal-Relation.gold.completed.xml"
         filePath2 ="gold_annotated/" + trainOrTest +"/"+ fileName +"/" + fileName + ".Temporal-Entity.gold.completed.xml"
         filePath = ""

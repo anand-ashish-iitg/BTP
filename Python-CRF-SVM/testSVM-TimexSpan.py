@@ -9,10 +9,17 @@ import pycrfsuite
 from loadTuples import *
 from sklearn import svm
 from evalt import *
-
+import sentlex
 
 
 def getIsSpell(word):
+	"""Checks whether the word is a spelling of common numbers
+
+    Args:
+        word: the word to be checked for spelling of number
+    Returns:
+        True if the word is spelling of common numberr
+    """
 	units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
         "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
@@ -24,6 +31,13 @@ def getIsSpell(word):
 		return False
 
 def getIsQuant(word):
+	"""Checks whether the word is common quantitative descriptor
+
+    Args:
+        word: the word to be checkd for quantitative descriptor
+    Returns:
+        True if the word is spelling of common  quantitative descriptor
+    """
 	quant = [
 		"once", "twice","thrice","first","second","third","fourth","fifth","sixth","single","multiple",	
 		]		
@@ -33,6 +47,12 @@ def getIsQuant(word):
 		return False
 
 def getIsPrePost(word):
+	"""Checks whether the word is common pre-post expression
+    Args:
+        word: the word to be checkd for common pre-post expression
+    Returns:
+        True if the word is spelling of common pre-post expression
+    """
 	word = word.lower()
 	if("pre" in word):
 		return True
@@ -48,8 +68,7 @@ def getIsPrePost(word):
 
 	return False
 
-
-import sentlex
+# loading the sentences with their pre-processed features
 test_sents = load6("test")
 # test_sents = load2("test")[:100]
 #print train_sents
@@ -57,6 +76,15 @@ test_sents = load6("test")
 SWN = sentlex.SWN3Lexicon()
 
 def word2features(sent, i):
+	"""get the feautes corresponding to a word in a sentence at a particular position
+    Args:
+        sent: the sentence whose word is to be considered
+        i: the position of the word in the sentence
+    Returns:
+        the dictionary containing the features for the classifier
+    """
+
+    # features for current word
 	word = sent[i][0]
 	postag = sent[i][1]
 	medlabel = sent[i][6]
@@ -86,6 +114,7 @@ def word2features(sent, i):
 		'quant':getIsQuant(word),
 	}
 
+	# features for cur pos - 1 word
 	if(i > 0):
 		word1 = sent[i-1][0]
 		postag1 = sent[i-1][1]
@@ -123,7 +152,7 @@ def word2features(sent, i):
 
 
 
-
+	# features for cur pos + 1 word
 	if i < len(sent)-1:
 		word1 = sent[i+1][0]	
 		medlabel1 = sent[i+1][6]
@@ -156,6 +185,7 @@ def word2features(sent, i):
 	else:
 		features.update({'EOS':True})
 
+	# features for cur pos - 2 word
 	if i > 1:
 		word2 = sent[i-2][0]
 		medlabel2 = sent[i-2][6]
@@ -189,6 +219,7 @@ def word2features(sent, i):
 	else:
 		features.update({'BOS2':True})
 
+	# features for cur pos + 2 word
 	if i < len(sent)-2:
 		word2 = sent[i+2][0]
 		medlabel2 = sent[i+2][6]
@@ -223,7 +254,7 @@ def word2features(sent, i):
 		features.update({'EOS2':True})
 
 	# 3rd onwards
-
+	# features for cur pos - 3  word
 	if i > 2:
 		word2 = sent[i-3][0]
 		medlabel3 = sent[i-3][6]
@@ -257,6 +288,7 @@ def word2features(sent, i):
 	else:
 		features.update({'BOS3':True})
 
+	# features for cur pos + 3 word
 	if i < len(sent)-3:
 		word2 = sent[i+3][0]
 		medlabel2 = sent[i+3][6]
@@ -292,6 +324,14 @@ def word2features(sent, i):
 	return features
 
 def getNum(label):
+	"""get a unique number corresponding to each label
+
+    Args:
+        label: the label correposnding to which a number is to be alloted
+    Returns:
+        a unique number corresponding to each label
+
+    """
 	if(label == "B-TIMEX"):
 		return 1
 	elif(label == "I-TIMEX"):
@@ -300,6 +340,13 @@ def getNum(label):
 	 return 0
 
 def sent2features(sent):
+	"""get feauture vector for the sentence
+
+    Args:
+        sent: the sentence correposnding to which feauture vector is to be extracted
+    Returns:
+        feature vector for a sentence
+    """
 	feature = [word2features(sent, i) for i in range(len(sent)) ]
 	
 	'''print "feature for sentence" + str(sent)
@@ -309,6 +356,14 @@ def sent2features(sent):
 	return feature
 
 def sent2labels(sent):
+	"""get a vector of labels for the sentence
+
+    Args:
+        sent: the sentence correposnding to which label vector is to be extracted
+    Returns:
+        a vector of labels for the sentence
+
+    """
 	#print sent
 	# return [label for token, postag, norm, cui, tui, label, start, end in sent]
 	return [label for token, postag, label, start, end, fileName, medlabel, Class, Medclass in sent]
@@ -316,6 +371,14 @@ def sent2labels(sent):
 
 def sent2tokens(sent):
     # return [token for token, postag, norm, cui, tui, label, start, end in sent]    
+	"""get a vector of tokens for the sentence
+
+    Args:
+        sent: the sentence correposnding to which tokens vector is to be extracted
+    Returns:
+        a vector of tokens for the sentence
+
+    """
 	return [token for token, postag, label, start, end, fileName, medlabel, Class, Medclass in sent]
 
 # vec = DictVectorizer()
@@ -323,6 +386,13 @@ def sent2tokens(sent):
 
 
 def eventEvaluate(cor,pred):
+	"""Evaluates using partial matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
 	ind = -1
 	sysandgrnd = 0
 	sys = 0
@@ -355,6 +425,14 @@ def eventEvaluate(cor,pred):
 	print "Fmeasure  = " +  str(fmes)
 
 def exactEvaluate(cor,pred):
+	"""Evaluates using exact matching
+
+    Args:
+        cor: list of the correct label
+        pred: list of the predicted label    
+
+    """
+
 	ind = -1
 	sysandgrnd = 0
 	sys = 0
@@ -403,10 +481,12 @@ with open('my_dumped_SVMTimexSpan.pkl', 'rb') as fid:
 	for s in test_sents:
 		test_labels.extend(sent2labels(s))
 
-	
+	# get the list of presicted labels
 	prediction_rbf = classifier_rbf.predict(test_vectors)	
 	prediction_rbf = list(prediction_rbf)
 	predicted_labels = []
+
+
 	for num in  prediction_rbf:
 		if(num==1):
 			predicted_labels.append("B-TIMEX")
@@ -415,6 +495,7 @@ with open('my_dumped_SVMTimexSpan.pkl', 'rb') as fid:
 		else:
 			predicted_labels.append("O")	
 
+	# dump the corrdct as well as the correct labels for the test data
 	f=open("PredictedTagsSVM-TIMEXSpan.pkl", 'wb')
 	pickle.dump(predicted_labels, f)
 	f.close()
